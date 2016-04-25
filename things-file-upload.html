@@ -1,0 +1,452 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+
+<link rel="import" href="../things-global-behavior/things-global-behavior.html">
+<link rel="import" href="../things-spinner/things-spinner-behavior.html">
+<link rel="import" href="../things-msg-box-behavior/things-msg-box-behavior.html">
+
+<link rel="import" href="../things-resource-combo/things-storage-combo.html">
+<link rel="import" href="things-upload.html">
+<!--
+A comment describing this element
+
+	Example:
+
+		<things-file-upload target="upload" method="POST" timeout="300000" ></things-file-upload>
+
+	Example :
+
+		var i18n = {
+            dropFiles: {
+              one: '파일을 이곳에 넣으세요',
+              many: '파일들을 이곳에 넣으세요'
+            },
+            addFiles: {
+              one: '파일을 선택하세요',
+              many: '파일들을 선택하세요'
+            },
+            cancel: '취소',
+            cancelAll: '전부취소',
+            error: {
+              tooManyFiles: '파일이 너무 많습니다.',
+              fileIsTooBig: '파일이 너무 큽니다.',
+              incorrectFileType: '파일 타입이 잘못되었습니다.'
+            },
+            uploading: {
+              status: {
+                connecting: '서버 연결중',
+                stalled: '지작 중.',
+                processing: '업로드 중...'
+              },
+              remainingTime: {
+                prefix: '남은 시간 :  ',
+                unknown: '남은 시간 확인 불가 합니다.'
+              },
+              error: {
+                serverUnavailable: '서버연결 실패하였습니다.',
+                unexpectedServerError: '예상치않은 서버 에러.',
+                forbidden: '거절되었습니다.'
+              }
+            },
+            units: {
+              "size": [B, kB, MB, GB, TB, PB, EB, ZB, YB]
+            }
+          };
+
+		<things-file-upload target="upload" i18n ="{{i18n}}" method="POST" timeout="300000" ></things-file-upload>
+
+	Example :
+
+		<things-file-upload target="upload" nodrop method="POST" timeout="300000" ></things-file-upload>
+
+@demo ./demo/index.html
+-->
+
+<dom-module id="things-file-upload">
+	<template>
+		<style is="custom-style" include="demo-pages-shared-styles">
+			:root {
+				--primary-color: #00B4F0;
+				--light-primary-color: #7CD8F7;
+				--dark-primary-color: #0078A0;
+				--error-color: #E61E6E;
+			}
+			
+			nav {
+				display: block;
+			}
+			
+			nav.vertical-section {
+				margin-left: 0;
+				margin-right: 0;
+				padding-top: 8px;
+				padding-bottom: 0;
+			}
+			
+			nav > ul {
+				padding: 0;
+			}
+			
+			nav > ul > li {
+				padding: 0 24px 8px 0;
+				list-style: none;
+			}
+			
+			nav a,
+			nav b {
+				@apply(--paper-font-button);
+			}
+			
+			nav a {
+				color: var(--primary-color);
+				text-decoration: none;
+			}
+			
+			nav b {
+				color: var(--secondary-text-color);
+			}
+			
+			.centered {
+				max-width: 800px;
+			}
+		</style>
+		<style>
+			:host {
+				display: block;
+			}
+
+			:host span {
+				width : 500px;
+			};
+		</style>
+
+		<div hidden="{{hidden}}">
+			<paper-toolbar>
+				<span class="title">[[title]]</span>
+			</paper-toolbar>
+
+			<things-upload
+							accept="[[accept]]" 
+							headers="[[headers]]" 
+							i18n="[[i18n]]" 
+							maxFiles=[[maxFiles]]
+							maxFileSize=[[maxFileSize]]
+							method=[[method]]
+							nodrop=[[nodrop]]
+							nomultiple=[[nomultiple]]
+							showCancelAll=[[showCancelAll]]
+							target=[[target]]
+							timeout=[[timeout]]
+							id="fileUpload">
+				<content></content>
+			</things-upload>
+
+			<things-storage-combo id="storage" hidden="{{selectorHidden}}"></things-storage-combo>
+			<paper-input id="tag" label="Tag" value="{{resourceTag}}" hidden="{{tagHidden}}"></paper-input>
+		</div>
+
+	</template>
+
+	<script>
+
+	Polymer({
+		is: 'things-file-upload',
+
+		properties: {
+			/**
+			 * 화면에 표시할 지 여부 
+			 */
+			hidden: {
+				type: Boolean,
+				value: false
+			},
+
+			/**
+			 * selector 화면에 표시할지 여부
+			 */
+			selectorHidden: {
+				type: Boolean,
+				value: false
+			},
+
+			/**
+			 * tag 화면에 표시할지 여부
+			 */
+			tagHidden: {
+				type: Boolean,
+				value: false
+			},
+
+			/**
+			 * Toolbar에 표시될 컴포넌트 타이틀
+			 */
+			title: {
+				type: String,
+				value: 'File Upload'
+			},
+			
+			/**
+			 * 선택된 storage 정보 
+			 */
+			storage: {
+				type: String
+			},
+
+			/**
+			 * Specifies the types of files that the server accepts. 
+			 * Syntax: file_extension|audio/|video/|image/*|media_type
+			 */
+			accept: {
+				type: String
+			},
+			/**
+			 * Key-Value map to send to the server.
+			 */
+			headers: {
+				type: Object
+			},
+			/**
+			 * The object used to localize this component.
+			 *  Default: {
+					"dropFiles": {
+						"one": Drop file here...,
+						"many": Drop files here...
+					},
+					"addFiles": {
+						"one": Select File,
+						"many": Add Files
+					},
+					"cancel": Cancel,
+					"cancelAll": Cancel All,
+					"error": {
+						"tooManyFiles": Too Many Files.,
+						"fileIsTooBig": File is Too Big.,
+						"incorrectFileType": Incorrect File Type.
+					},
+					"uploading": {
+						"status": {
+							"connecting": Connecting...,
+							"stalled": Stalled.,
+							"processing": Processing File...
+						},
+						"remainingTime": {
+							"prefix": remaining time: ,
+							"unknown": unknown remaining time
+						},
+						"error": {
+							"serverUnavailable": Server Unavailable,
+							"unexpectedServerError": Unexpected Server Error,
+							"forbidden": Forbidden
+						}
+					},
+					"units": {
+						"size": [B, kB, MB, GB, TB, PB, EB, ZB, YB]
+					}
+				}
+			 */
+			i18n: {
+				type: Object
+			},
+			/**
+			 * Limit of files to upload, by default it is unlimited. If the value is one, 
+			 * nomultiple is true.
+			 */
+			maxFiles: {
+				type: Number,
+				value:Infinity
+			},
+			/**
+			 * Specifies the maximum file size allowed to upload. Default is unlimited.
+			 */
+			maxFileSize: {
+				type: Number,
+				value:Infinity
+			},
+			/**
+			 * HTTP Method used to send the files.
+			 */
+			method: {
+				type: String,
+				value:'POST'
+			},
+			/**
+			 * Define whether the element supports drop files on it for uploading. 
+			 * By default it's enabled in desktop and disabled in touch devices 
+			 * because almost mobile devices do not support drag events.
+			 */
+			nodrop: {
+				type: Boolean,
+				value:false
+			},
+			/**
+			 * Specifies whether the file selection popup is configured to select multiple files.
+			 */
+			nomultiple: {
+				type: Boolean,
+				value:false
+			},
+			/**
+			 * Specifies if the cancel-all button is visible.
+			 */
+			showCancelAll: {
+				type: Boolean,
+				value:false
+			},
+			/**
+			 * Server URL.
+			 */
+			target: {
+				type: String
+			},
+			/**
+			 * Max time for the upload process, if exceeded XHR will be aborted.
+			 */
+			timeout: {
+				type: Number,
+				value: 0
+			},
+			/**
+			 * file resource entity type
+			 */
+			resourceType:{
+				type: String
+			},
+			/**
+			 * resource Id
+			 */
+			resourceId:{
+				type: String
+			},
+			/**
+			 * resouce Tag
+			 */
+			resourceTag:{
+				type: String
+			},
+			/**
+			 * compute basic url for reuqest generation
+			 */
+			_baseUrl:{
+				computed:'_getbaseUrl(globals.baseUrl)'
+			}
+		},
+		listeners: {
+			'fileUpload.file-add': '_fileAdd',
+			'fileUpload.file-remove': '_fileRemove',
+			'fileUpload.upload-before': '_uploadBefore',
+			'fileUpload.upload-start': '_updateListItem',
+			'fileUpload.upload-request': '_uploadRequest',
+			'fileUpload.upload-progress': '_updateListItem',
+			'fileUpload.upload-response': '_uploadResponse',
+			'fileUpload.upload-success': '_updateListItem',
+			'fileUpload.upload-error': '_updateListItem',
+			'fileUpload.upload-abort':'_uploadAbort',
+			'storage.things-combo-value-changed' : '_storageValueChangeHandler'
+		},
+		
+		behaviors: [
+			Things.GlobalBehavior,
+			Things.SpinnerBehavior,
+			Things.MsgBoxBehavior
+		],
+
+		/**
+		 * Storage 선택시 
+		 */
+		_storageValueChangeHandler: function(e) {
+			this.storage = e.detail.value;
+		},
+
+		/**
+		 * compute basic url
+		 */
+		_getbaseUrl: function(baseUrl) {
+			return baseUrl;
+		},
+
+		/**
+		 * when upload process this function will update list status
+		 */
+		_updateListItem: function(event) {
+			var file = event.detail.file;
+			if (file.listItem) {
+				file.listItem.querySelector('strong').textContent = file.name;
+
+				var status = file.listItem.querySelector('span');
+				switch (event.type) {
+					case 'upload-success':
+						status.textContent = 'Uploaded.';
+						// console.log(event);
+						break;
+					case 'upload-error':
+						status.textContent = file.error;
+						break;
+					default:
+						status.textContent = file.status;
+						break;
+				}
+			}
+		},
+		/**
+		 * when add file add file infomation on outer
+		 */
+		_fileAdd: function(event) {
+			var file = event.detail.file;
+			var li = document.createElement('li');
+			li.innerHTML = '<strong></strong><br/> <span></span>';
+			file.listItem = li;
+			// this.$.customFilesList.appendChild(li);
+			this._updateListItem(event);
+		},
+		/**
+		 * when file removed remove html tag
+		 */
+		_fileRemove: function(event) {
+			// console.log('_fileRemove');
+			var file = event.detail.file;
+			if (file.listItem) {
+				this.$.customFilesList.removeChild(file.listItem);
+			}
+		},
+		/**
+		 * before send request make request url
+		 */
+		_uploadBefore:function(event){
+			// Prevent the upload request:
+			// event.preventDefault();
+
+			// Custom upload request url for file
+			var file = event.detail.file;
+			var target = this.$.fileUpload.target
+			// file.on_id = this.resourceId;
+			// file.on_type = this.resourceType;
+
+			var formData = event.detail.formData;
+			formData.append('onId', this.resourceId);
+			formData.append('onType',this.resourceType);
+			file.xhr.withCredentials = true;
+			file.uploadTarget = [this._baseUrl, target, this.storage].join('/');
+		},
+		/**
+		 * when upload request sent this function will be worked
+		 */
+		_uploadRequest:function(event){
+			// console.log(event);
+		},
+		/**
+		 * when upload result come in this function will be worked
+		 */
+		_uploadResponse:function(event){
+			this.fire('things-upload-response', event.detail);
+		},
+		/**
+		 * when upload aborted this function will be worked
+		 */
+		_uploadAbort:function(event){
+
+		}
+
+	});
+	</script>
+</dom-module>

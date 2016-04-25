@@ -1,0 +1,253 @@
+
+<!--
+`<things-upload-template>` element represents a file in the file list of `<things-upload>`.
+
+### Styling
+
+The following custom properties are available for styling the component.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--things-upload-template`|Styles for the entire host element|`{}`
+`--things-upload-template-row`|Styles for the file row|`{}`
+`--things-upload-template-meta`|Styles for the info container|`{}`
+`--things-upload-template-name`|Styles for the file name|`{}`
+`--things-upload-template-status`|Styles for the file status label|`{}`
+`--things-upload-template-error`|Styles for the file error label|`{}`
+`--things-upload-template-commands`|Styles for the buttons container|`{}`
+`--things-upload-template-progress`|Styles for the included paper-progress|`{}`
+`--things-upload-template-progress-error`|Styles for the progress bar when error is set|`{}`
+`--things-upload-template-progress-indeterminate`|Styles for the progress bar when indeterminate|`{}`
+`--things-upload-template-progress-uploading-indeterminate`|Styles for the progress bar when uploading and indeterminate|`{}`
+`--things-upload-template-progress-complete`|Styles for the progress when file is complete|`{}`
+
+@element things-upload-template
+@demo demo/
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-progress/paper-progress.html">
+
+<dom-module id="things-upload-template">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-vertical);
+        margin: 8px 0;
+        padding: 8px 0 0;
+        @apply(--things-upload-template);
+      }
+
+      #row {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        height: 36px;
+        @apply(--things-upload-template-row);
+      }
+
+      #meta {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+        width: 1px;
+        color: var(--disabled-text-color, gray);
+        @apply(--things-upload-template-meta);
+      }
+
+      #meta[complete] {
+        color: var(--primary-text-color, #000);
+      }
+
+      #name,
+      #status,
+      #error {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 16px !important;
+      }
+
+      #name {
+        @apply(--paper-font-body2);
+        @apply(--things-upload-template-name);
+      }
+
+      #status {
+        @apply(--paper-font-caption);
+        color: var(--disabled-text-color, gray);
+        @apply(--things-upload-template-status);
+      }
+
+      #error {
+        @apply(--paper-font-caption);
+        color: var(--error-color, #f40303);
+        @apply(--things-upload-template-error);
+      }
+
+      #commands {
+        margin-right: -4px;
+        @apply(--things-upload-template-commands);
+        @apply(--layout-horizontal);
+      }
+
+      #commands [icon] {
+        margin-left: -4px;
+        margin-right: -4px;
+        color: var(--primary-text-color, #000);
+      }
+
+      #commands [icon="refresh"],
+      #commands [icon="clear"] {
+        color: var(--primary-color, #00B4F0);
+      }
+
+      #commands [icon="warning"] {
+        color: var(--error-color, #f40303);
+      }
+
+      paper-progress {
+        --paper-progress-active-color: var(--primary-color, #00B4F0);
+        width: 100%;
+        height: 2px;
+        @apply(--things-upload-template-progress);
+      }
+
+      paper-progress[error] {
+        --paper-progress-container-color: var(--error-color, #f40303);
+        --paper-progress-active-color: var(--error-color, #f40303);
+        @apply(--things-upload-template-progress-error);
+      }
+
+      paper-progress[indeterminate] {
+        --paper-progress-container-color: var(--primary-color, #00B4F0);
+        --paper-progress-active-color: rgba(1, 97, 155, 0.5);
+        @apply(--things-upload-template-progress-indeterminate);
+      }
+
+      paper-progress[uploading][indeterminate] {
+        --paper-progress-container-color: var(--divider-color, #e0e0e0);
+        --paper-progress-active-color: var(--disabled-text-color, gray);
+        @apply(--things-upload-template-progress-uploading-indeterminate);
+      }
+
+      paper-progress[complete] {
+        @apply(--things-upload-template-progress-complete);
+      }
+
+      :host.fade-out {
+        animation-name: fade-out;
+        animation-duration: 1s;
+        @apply(--things-upload-template-canceled);
+      }
+
+      @keyframes fade-out {
+        50%  {
+          max-height: 50px;
+          margin: 8px 0;
+          padding: 8px 0 0;
+        }
+        100% {
+          opacity: 0;
+          max-height: 0px;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    </style>
+
+    <div id="row">
+
+      <div id="meta" complete$="[[file.complete]]">
+        <div id="name">[[file.name]]</div>
+        <div id="status" hidden$="[[!file.status]]">[[file.status]]</div>
+        <div id="error" hidden$="[[!file.error]]">[[file.error]]</div>
+      </div>
+
+      <div id="commands">
+        <paper-icon-button disabled icon="done" title="Complete" hidden$="[[!file.complete]]"></paper-icon-button>
+        <paper-icon-button disabled icon="warning" title="Error" hidden$="[[!file.error]]"></paper-icon-button>
+        <paper-icon-button icon="refresh" title="Retry Upload" file-event="file-retry" on-tap="_fireFileEvent" hidden$="[[!file.error]]"></paper-icon-button>
+        <paper-icon-button icon="clear" title="Abort Upload" file-event="file-abort" on-tap="_fireFileEvent"></paper-icon-button>
+      </div>
+
+    </div>
+
+    <paper-progress
+        id="progress"
+        value$="[[file.progress]]"
+        error$="[[file.error]]"
+        indeterminate$="[[file.indeterminate]]"
+        uploading$="[[file.uploading]]"
+        complete$="[[file.complete]]"
+        >
+    </paper-progress>
+
+  </template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'things-upload-template',
+
+    properties: {
+      /**
+       * File metadata, upload status and progress information.
+       */
+      file: Object
+    },
+
+    observers: [
+      '_fileChanged(file.*)',
+      '_fileAborted(file.abort)'
+    ],
+
+    _fileChanged: function() {
+      this.$.progress.updateStyles();
+    },
+
+    _fileAborted: function(abort) {
+      if (abort) {
+        this.toggleClass('fade-out', true);
+        var animationName = window.getComputedStyle(this).animationName;
+        if (!animationName || animationName === 'none') {
+          this.fire('file-remove', {file: this.file});
+        } else {
+          this.addEventListener('animationend', function() {
+            this.fire('file-remove', {file: this.file});
+          }.bind(this));
+        }
+      }
+    },
+
+    _fireFileEvent: function(e) {
+      e.preventDefault();
+      var button = Polymer.dom(e).localTarget;
+      return this.fire(button.getAttribute('file-event'), {file: this.file});
+    }
+
+    /**
+     * Fired when retry button pressed. Listened by `vaadin-upload`. Fire this
+     * event if you want to perform retry upload.
+     *
+     * @event file-retry
+     * @param {Object} detail
+     *  @param {Object} detail.file file to retry upload of
+     */
+
+    /**
+     * Fired when abort button pressed. Listened by `vaadin-upload`. Fire this
+     * event if you want to abort the file upload and remove the file from the
+     * upload file list.
+     *
+     * @event file-abort
+     * @param {Object} detail
+     *  @param {Object} detail.file file to abort upload of
+     */
+  });
+
+</script>
