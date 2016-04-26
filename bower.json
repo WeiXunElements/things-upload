@@ -24,13 +24,13 @@
     "paper-styles": "^1.1.4",
     "paper-ripple": "*",
     "paper-button": "^1.0.11",
-    "things-global-behavior": "ThingsElements/things-global-behavior#^0.0.2",
-    "things-msg-box-behavior": "ThingsElements/things-msg-box-behavior#^0.0.1",
+    "things-global-behavior": "ThingsElements/things-global-behavior",
+    "things-msg-box-behavior": "ThingsElements/things-msg-box-behavior",
     "things-ajax": "ThingsElements/things-ajax",
-    "things-combo": "ThingsElements/things-combo#^0.0.1",
+    "things-combo": "ThingsElements/things-combo",
     "paper-icon-button": "^1.0.7",
     "paper-progress": "^1.0.9",
-    "things-resource-combo": "ThingsElements/things-resource-combo#^0.0.3"
+    "things-resource-combo": "ThingsElements/things-resource-combo"
   },
   "devDependencies": {
     "iron-component-page": "^1.1.5",
@@ -38,10 +38,10 @@
     "iron-demo-helpers": "^1.2.3",
     "iron-test-helpers": "^1.2.3",
     "elements-demo-resources": "*",
-    "things-spinner": "ThingsElements/things-spinner#^0.0.1",
+    "things-spinner": "ThingsElements/things-spinner",
     "MockHttpRequest": "philikon/MockHttpRequest",
-    "things-setting": "ThingsElements/things-setting#^0.0.2",
+    "things-setting": "ThingsElements/things-setting",
     "paper-toast": "^1.2.2",
-    "things-button": "ThingsElements/things-button#^0.0.1"
+    "things-button": "ThingsElements/things-button"
   }
 }
