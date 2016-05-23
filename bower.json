@@ -1,6 +1,6 @@
 {
   "name": "things-upload",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     "Hatio Lab. <heartyoh@hatiolab.com>"
   ],
@@ -30,7 +30,8 @@
     "things-combo": "ThingsElements/things-combo",
     "paper-icon-button": "^1.0.7",
     "paper-progress": "^1.0.9",
-    "things-resource-combo": "ThingsElements/things-resource-combo"
+    "things-resource-combo": "ThingsElements/things-resource-combo",
+    "things-input-field": "ThingsElements/things-input-field"
   },
   "devDependencies": {
     "iron-component-page": "^1.1.5",
