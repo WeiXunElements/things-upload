@@ -120,12 +120,14 @@ A comment describing this element
 			:host span {
 				width : 500px;
 			};
+			things-upload{
+				margin-bottom:15px
+			}
+			:host::shadow .things-file-upload .title{display:none;}
 		</style>
 
 		<div hidden="{{hidden}}">
-			<paper-toolbar>
-				<span class="title">[[title]]</span>
-			</paper-toolbar>
+			<span class="title">[[title]]</span>
 
 			<things-upload
 							accept="[[accept]]" 
