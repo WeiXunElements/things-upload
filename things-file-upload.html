@@ -127,6 +127,13 @@ A comment describing this element
 		</style>
 
 		<div hidden="{{hidden}}">
+
+	    <things-ajax
+	      id="default-storage" 
+	      resource-url="storage_infos/show_by_name"
+	      resource-action="get">
+	    </things-ajax>
+
 			<span class="title">[[title]]</span>
 
 			<things-upload
@@ -203,12 +210,14 @@ A comment describing this element
 			accept: {
 				type: String
 			},
+
 			/**
 			 * Key-Value map to send to the server.
 			 */
 			headers: {
 				type: Object
 			},
+
 			/**
 			 * The object used to localize this component.
 			 *  Default: {
@@ -251,6 +260,7 @@ A comment describing this element
 			i18n: {
 				type: Object
 			},
+
 			/**
 			 * Limit of files to upload, by default it is unlimited. If the value is one, 
 			 * nomultiple is true.
@@ -259,6 +269,7 @@ A comment describing this element
 				type: Number,
 				value:Infinity
 			},
+
 			/**
 			 * Specifies the maximum file size allowed to upload. Default is unlimited.
 			 */
@@ -266,6 +277,7 @@ A comment describing this element
 				type: Number,
 				value:Infinity
 			},
+
 			/**
 			 * HTTP Method used to send the files.
 			 */
@@ -273,6 +285,7 @@ A comment describing this element
 				type: String,
 				value:'POST'
 			},
+
 			/**
 			 * Define whether the element supports drop files on it for uploading. 
 			 * By default it's enabled in desktop and disabled in touch devices 
@@ -282,6 +295,7 @@ A comment describing this element
 				type: Boolean,
 				value:false
 			},
+
 			/**
 			 * Specifies whether the file selection popup is configured to select multiple files.
 			 */
@@ -289,6 +303,7 @@ A comment describing this element
 				type: Boolean,
 				value:false
 			},
+
 			/**
 			 * Specifies if the cancel-all button is visible.
 			 */
@@ -296,12 +311,14 @@ A comment describing this element
 				type: Boolean,
 				value:false
 			},
+
 			/**
 			 * Server URL.
 			 */
 			target: {
 				type: String
 			},
+
 			/**
 			 * Max time for the upload process, if exceeded XHR will be aborted.
 			 */
@@ -309,31 +326,44 @@ A comment describing this element
 				type: Number,
 				value: 0
 			},
+
 			/**
 			 * file resource entity type
 			 */
 			resourceType:{
 				type: String
 			},
+
 			/**
 			 * resource Id
 			 */
 			resourceId:{
 				type: String
 			},
+
 			/**
 			 * resouce Tag
 			 */
 			resourceTag:{
 				type: String
 			},
+
 			/**
 			 * compute basic url for reuqest generation
 			 */
 			_baseUrl:{
 				computed:'_getbaseUrl(globals.baseUrl)'
+			},
+
+			/**
+			 * 기본 storage를 전달 받아 맵핑 합니다.
+			 */
+			defaultStorage: {
+				type: String,
+				observer: '_defaultStorageChanged'
 			}
 		},
+
 		listeners: {
 			'fileUpload.file-add': '_fileAdd',
 			'fileUpload.file-remove': '_fileRemove',
@@ -345,7 +375,8 @@ A comment describing this element
 			'fileUpload.upload-success': '_updateListItem',
 			'fileUpload.upload-error': '_updateListItem',
 			'fileUpload.upload-abort':'_uploadAbort',
-			'storage.things-combo-value-changed' : '_storageValueChangeHandler'
+			'storage.things-combo-value-changed' : '_storageValueChangeHandler',
+			'default-storage.things-ajax-response': '_defaultStorageValueChanged'
 		},
 		
 		behaviors: [
@@ -353,6 +384,25 @@ A comment describing this element
 			Things.SpinnerBehavior,
 			Things.MsgBoxBehavior
 		],
+
+		/**
+		 * 전달받은 defaultStorage를 이용하여 ajax 호출 합니다.
+		 */
+		_defaultStorageChanged: function(defaultStorage) {
+			if(defaultStorage) {
+				this.$['default-storage'].resourceUrl = this.$['default-storage'].resourceUrl + '?name=' + defaultStorage;
+				this.$['default-storage'].generateRequest();		
+			}
+		},
+
+		/**
+		 * ajax 호출 listner로 response를 통해 storage의 값들을 초기화 합니다.
+		 */
+		_defaultStorageValueChanged: function(e) {
+			this.$.storage.name = e.detail.description;
+			this.$.storage.value = e.detail.name;
+			this.storage = e.detail.name;
+		},
 
 		/**
 		 * Storage 선택시 
@@ -391,6 +441,7 @@ A comment describing this element
 				}
 			}
 		},
+
 		/**
 		 * when add file add file infomation on outer
 		 */
@@ -402,6 +453,7 @@ A comment describing this element
 			// this.$.customFilesList.appendChild(li);
 			this._updateListItem(event);
 		},
+
 		/**
 		 * when file removed remove html tag
 		 */
@@ -412,6 +464,7 @@ A comment describing this element
 				this.$.customFilesList.removeChild(file.listItem);
 			}
 		},
+
 		/**
 		 * before send request make request url
 		 */
@@ -426,23 +479,30 @@ A comment describing this element
 			// file.on_type = this.resourceType;
 
 			var formData = event.detail.formData;
-			formData.append('onId', this.resourceId);
-			formData.append('onType',this.resourceType);
+
+			if(this.resourceId) {
+				formData.append('onId', this.resourceId);
+				formData.append('onType',this.resourceType);
+			}
+
 			file.xhr.withCredentials = true;
 			file.uploadTarget = [this._baseUrl, target, this.storage].join('/');
 		},
+
 		/**
 		 * when upload request sent this function will be worked
 		 */
 		_uploadRequest:function(event){
 			// console.log(event);
 		},
+
 		/**
 		 * when upload result come in this function will be worked
 		 */
 		_uploadResponse:function(event){
 			this.fire('things-upload-response', event.detail);
 		},
+
 		/**
 		 * when upload aborted this function will be worked
 		 */
