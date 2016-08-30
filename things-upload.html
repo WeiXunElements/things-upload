@@ -153,6 +153,9 @@ Custom property | Description | Default
       }
     </style>
 
+    <things-i18n-msg msgid="label.storage" msg="{{lImageSelector}}" auto hidden>Image Selector</things-i18n-msg>
+
+
     <div id="dropLabel" hidden$="[[nodrop]]">
       <content select=".drop-label">
         <iron-icon icon="file-upload"></iron-icon>
@@ -307,34 +310,34 @@ Custom property | Description | Default
         value: function() {
           return {
             dropFiles: {
-              one: 'Drop file here...',
-              many: 'Drop files here...'
+              one: Things.DataGlobal.t('text.drop-file-here...'),
+              many: Things.DataGlobal.t('text.drop-files-here...')
             },
             addFiles: {
-              one: 'Select File',
-              many: 'Add Files'
+              one: Things.DataGlobal.t('text.select-file'),
+              many: Things.DataGlobal.t('text.add-files')
             },
-            cancel: 'Cancel',
-            cancelAll: 'Cancel All',
+            cancel: Things.DataGlobal.t('text.cancel'),
+            cancelAll: Things.DataGlobal.t('text.cancel-all'),
             error: {
-              tooManyFiles: 'Too Many Files.',
-              fileIsTooBig: 'File is Too Big.',
-              incorrectFileType: 'Incorrect File Type.'
+              tooManyFiles: Things.DataGlobal.t('text.too-many-files.'),
+              fileIsTooBig: Things.DataGlobal.t('text.file-is-too-big.'),
+              incorrectFileType: Things.DataGlobal.t('text.incorrect-file-type.')
             },
             uploading: {
               status: {
-                connecting: 'Connecting...',
-                stalled: 'Stalled.',
-                processing: 'Processing File...'
+                connecting: Things.DataGlobal.t('text.connecting...'),
+                stalled: Things.DataGlobal.t('text.stalled.'),
+                processing: Things.DataGlobal.t('text.processing-file...')
               },
               remainingTime: {
-                prefix: 'remaining time: ',
-                unknown: 'unknown remaining time'
+                prefix: Things.DataGlobal.t('text.remaining-time: '),
+                unknown: Things.DataGlobal.t('text.unknown-remaining-time')
               },
               error: {
-                serverUnavailable: 'Server Unavailable',
-                unexpectedServerError: 'Unexpected Server Error',
-                forbidden: 'Forbidden'
+                serverUnavailable: Things.DataGlobal.t('text.server-unavailable'),
+                unexpectedServerError: Things.DataGlobal.t('text.unexpected-server-error'),
+                forbidden: Things.DataGlobal.t('text.forbidden')
               }
             },
             units: {
