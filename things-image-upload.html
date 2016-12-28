@@ -125,7 +125,9 @@
 				config="[[gridConfig]]"
 				model="[[gridModel]]"
 				columns="[[gridColumns]]"
-				data="[[lastResponse.items]]">
+				grid-save-action="[[attachmentSaveUrl]]"
+				data="[[lastResponse.items]]"
+				buttons="[[buttons]]">
 			</things-resource-grid>
 		</div>
 
@@ -221,6 +223,8 @@
 				    dataType: 'number'
 				}, {
 				    fieldName: 'tag'
+				}, {
+						fieldName: 'path'
 				}]
 			},
 
@@ -350,6 +354,11 @@
 					    editable: false,
 					    nullable: true,
 					    maxValueLength: 2000
+					}, {
+							name: 'path',
+							fieldName: 'path',
+							width: 0,
+							editable: false
 					}]
 				}
 			},
@@ -363,11 +372,32 @@
 			},
 
 			/**
+			 * image save url
+			 */
+			attachmentSaveUrl: {
+				type: String,
+				value: 'attachments/update_multiple'
+			},
+
+			/**
+			 * grid buttons
+			 */
+			buttons: {
+				type: Array,
+				value: [{
+					id: 'save-btn',
+					text: 'save'
+				}, {
+					id: 'delete-btn',
+					text: 'delete'
+				}]
+			},
+
+			/**
 			 * image 조회시 쿼리 필드
 			 */
 			gridQueryFields: {
-				type: Array,
-				observer: 'gridQueryFieldsChanged'
+				type: Array
 			},
 
 			/**
@@ -536,7 +566,8 @@
 			'fileUpload.upload-error': '_updateListItem',
 			'fileUpload.upload-abort':'_uploadAbort',
 			'storage.things-combo-value-changed' : '_storageValueChangeHandler',
-			'default-storage.things-ajax-response': '_defaultStorageValueChanged'
+			'default-storage.things-ajax-response': '_defaultStorageValueChanged',
+			'attachment-grid.things-grid-save-success': 'refreshGridList'
 		},
 		
 		behaviors: [
@@ -673,12 +704,11 @@
 		},
 
 		/**
-		 * 업로드 결과가 도착하면 그리드를 refresh 한다. 
+		 * 업로드, 삭제 결과가 응답하면 그리드를 refresh 한다. 
 		 */
 		refreshGridList: function() {
 			this.$['attachment-ajax'].generateRequest();
 		}
-
 	});
 	</script>
 </dom-module>
