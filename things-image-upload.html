@@ -246,7 +246,7 @@
 					    maxValueLength: 64,
 					    styles: {
 					    	iconIndex: 'image-renderer'
-					    }					    
+					    }
 					}, {
 					    name: 'attachment_id',
 					    fieldName: 'attachment_id',
@@ -258,7 +258,8 @@
 					    editable: false,
 					    type: 'calced',
 					    renderer: {
-					        type: 'image'
+								type: 'image',
+								imageDisplay: 'auto' 
 					    },
 					    valueCallback: function (column, row) {
 					    	var rowObj = row.getRowObject();
@@ -269,7 +270,7 @@
 					}, {
 					    name: 'name',
 					    fieldName: 'name',
-					    width: 150,
+					    width: 200,
 					    header: {
 					        text: Things.DataGlobal.t('label.name')
 					    },
@@ -326,7 +327,9 @@
 					    header: {
 					        text: Things.DataGlobal.t('label.mimetype')
 					    },
-					    styles: {},
+					    styles: {
+					    	textAlignment : 'center'
+					    },
 					    validations: [],
 					    editable: false,
 					    nullable: true,
@@ -334,11 +337,13 @@
 					}, {
 					    name: 'file_size',
 					    fieldName: 'file_size',
-					    width: 100,
+					    width: 80,
 					    header: {
 					        text: Things.DataGlobal.t('label.file_size')
 					    },
-					    styles: {},
+					    styles: {
+					    	textAlignment : 'far'
+					    },
 					    validations: [],
 					    editable: false,
 					    nullable: true
