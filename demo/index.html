@@ -17,115 +17,54 @@ This program is available under Apache License Version 2.0, available at https:/
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>things-upload Basic Examples</title>
+  <title>vaadin-upload Basic Examples</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="common.html">
   <link rel="import" href="../../iron-icon/iron-icon.html">
   <link rel="import" href="../../iron-icons/iron-icons.html">
   <link rel="import" href="../../paper-toast/paper-toast.html">
+  <link rel="import" href="../../things-button/things-button.html">
+  <link rel="import" href="../../things-spinner/things-spinner.html">
+  <link rel="import" href="../../things-setting/things-setting.html">
 </head>
 <body unresolved>
   <div class="vertical-section-container centered">
     <nav class="vertical-section">
       <ul class="layout horizontal wrap">
-        <li><b>Basic Examples</b></li>
-        <li><a href="advanced.html">Advanced Usage</a></li>
-        <li><a href="i18n.html">I18n</a></li>
-        <li><a href="demo-things-file-upload.html">Things File Upload Examples</a></li>
+
+        <li><b>Things File Upload Examples</b></li>
       </ul>
     </nav>
+    <things-setting id="setting"></things-setting>
 
-    <h3>Basic Usage</h3>
+    <things-spinner id="spinner"></things-spinner>
+
+    <paper-toast id="toast" class="Toast" duration="8000"></paper-toast>
+
+    <h3>Basic Usage With Upload Request Properties</h3>
     <demo-snippet>
       <template>
-        <things-upload></things-upload>
-      </template>
-    </demo-snippet>
-
-    <h3>Upload Request Properties</h3>
-    <demo-snippet>
-      <template>
-        <things-upload
-            target="serverUrl"
-            method="POST"
-            timeout="300000"
-            headers="{'X-Custom-Header': 'value'}">
-        </things-upload>
+        <things-file-upload target="upload" method="POST" timeout="300000" ></things-file-upload>
       </template>
     </demo-snippet>
 
     <h3>Disabling Drag & Drop and Picking Multiple Files in the File Dialog</h3>
     <demo-snippet>
       <template>
-        <things-upload nodrop nomultiple></things-upload>
-      </template>
-    </demo-snippet>
-
-    <h3>Custom Color Scheme and Container Styles</h3>
-    <demo-snippet>
-      <template>
-        <style is="custom-style">
-          things-upload.thick-border {
-            --primary-color: #396;
-            --dark-primary-color: #063;
-            --light-primary-color: #6c9;
-            --error-color: darkred;
-
-            border: 2px solid #ccc;
-            background: #eee;
-            border-radius: 0;
-          }
-
-          things-upload.thick-border[dragover] {
-            border-color: #396;
-          }
-        </style>
-
-        <things-upload class="thick-border"></things-upload>
+        <things-file-upload nodrop nomultiple target="upload" method="POST" timeout="300000" ></things-file-upload>
       </template>
     </demo-snippet>
 
     <h3>Custom Drop Label</h3>
     <demo-snippet>
       <template>
-        <things-upload>
+        <things-file-upload nodrop nomultiple target="upload" method="POST" timeout="300000" >
           <h2 class="drop-label">
             <iron-icon icon="cloud-upload"></iron-icon>
             Drop files here...
           </h2>
-        </things-upload>
-      </template>
-    </demo-snippet>
-
-    <h3>Single File Upload</h3>
-    <demo-snippet>
-      <template>
-        <things-upload max-files="1"></things-upload>
-      </template>
-    </demo-snippet>
-
-    <h3>Files Count, Type and Size Limits, Reject File Event</h3>
-    <demo-snippet>
-      <template>
-        <things-upload id="rejectEventDemo" max-files="3" accept=".pdf" max-file-size="1000000">
-          <div class="drop-label">
-            <iron-icon icon="file-upload"></iron-icon>
-            Accepts up to 3 PDF files, up to 1MB each
-          </div>
-        </things-upload>
-
-        <paper-toast id="rejectToast"></paper-toast>
-
-        <script>
-          var upload = document.querySelector('things-upload#rejectEventDemo');
-          var toast = document.querySelector('paper-toast#rejectToast');
-
-          upload.addEventListener('file-reject', function(event) {
-            toast.text = event.detail.file.name + ' error: ' + event.detail.error;
-            toast.open();
-          });
-        </script>
+        </things-file-upload>
       </template>
     </demo-snippet>
   </div>

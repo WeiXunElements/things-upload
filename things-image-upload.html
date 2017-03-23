@@ -19,41 +19,41 @@
 				--dark-primary-color: #0078A0;
 				--error-color: #E61E6E;
 			}
-			
+
 			nav {
 				display: block;
 			}
-			
+
 			nav.vertical-section {
 				margin-left: 0;
 				margin-right: 0;
 				padding-top: 8px;
 				padding-bottom: 0;
 			}
-			
+
 			nav > ul {
 				padding: 0;
 			}
-			
+
 			nav > ul > li {
 				padding: 0 24px 8px 0;
 				list-style: none;
 			}
-			
+
 			nav a,
 			nav b {
 				@apply(--paper-font-button);
 			}
-			
+
 			nav a {
 				color: var(--primary-color);
 				text-decoration: none;
 			}
-			
+
 			nav b {
 				color: var(--secondary-text-color);
 			}
-			
+
 			.centered {
 				max-width: 800px;
 			}
@@ -82,7 +82,7 @@
 		<div hidden="{{hidden}}">
 
 	    <things-ajax
-	      id="default-storage" 
+	      id="default-storage"
 	      resource-url="storage_infos/show_by_name"
 	      resource-action="index">
 	    </things-ajax>
@@ -101,9 +101,9 @@
 
 			<things-upload
 							class="upload-section"
-							accept="[[accept]]" 
-							headers="[[headers]]" 
-							i18n="[[i18n]]" 
+							accept="[[accept]]"
+							headers="[[headers]]"
+							i18n="[[i18n]]"
 							maxFiles=[[maxFiles]]
 							maxFileSize=[[maxFileSize]]
 							method=[[method]]
@@ -140,70 +140,79 @@
 
 		properties: {
 
-			/**
-			 * 화면에 표시할 지 여부 
+			/*******
+			 * 화면에 표시할 지 여부
+			 * @type {Boolean}
 			 */
 			hidden: {
 				type: Boolean,
 				value: false
 			},
 
-			/**
+			/******
 			 * selector 화면에 표시할지 여부
+			 * @type {Boolean}
 			 */
 			selectorHidden: {
 				type: Boolean,
 				value: false
 			},
 
-			/**
+			/******
 			 * tag 화면에 표시할지 여부
+			 * @type {Boolean}
 			 */
 			tagHidden: {
 				type: Boolean,
 				value: false
 			},
 
-			/**
+			/******
 			 * Toolbar에 표시될 컴포넌트 타이틀
+			 * @type {String}
 			 */
 			title: {
 				type: String,
 				value: 'File Upload'
 			},
-			
-			/**
-			 * 선택된 storage 정보 
+
+			/******
+			 * 선택된 storage 정보
+			 * @type {String}
 			 */
 			storage: {
 				type: String
 			},
 
-			/**
-			 * Specifies the types of files that the server accepts. 
-			 * Syntax: file_extension|audio/|video/|image/*|media_type
+			/******
+			 * 파일type 설정
+			 * 예: file_extension|audio/|video/|image/*|media_type
+			 * @type {String}
 			 */
 			accept: {
 				type: String
 			},
 
-			/**
-			 * Key-Value map to send to the server.
+			/********
+			 * 서버로 보낼 Key-Value map 형식의 Object
+			 * @type {Object}
 			 */
 			headers: {
 				type: Object
 			},
 
-			/**
+			/******
 			 * grid config
+			 * @type {Object}
 			 */
 			gridConfig: {
 				type: Object,
 				value: {}
 			},
 
-			/**
-			 * grid model
+			/*******
+			 * grid 모델
+			 * @type {Array}
 			 */
 			gridModel: {
 				type: Array,
@@ -228,8 +237,9 @@
 				}]
 			},
 
-			/**
-			 * grid columns
+			/******
+			 * grid 필드
+			 * @type {Array}
 			 */
 			gridColumns: {
 				type: Array,
@@ -259,7 +269,7 @@
 					    type: 'calced',
 					    renderer: {
 								type: 'image',
-								imageDisplay: 'auto' 
+								imageDisplay: 'auto'
 					    },
 					    valueCallback: function (column, row) {
 					    	var rowObj = row.getRowObject();
@@ -368,24 +378,27 @@
 				}
 			},
 
-			/**
+			/******
 			 * image 소스를 조회할 url
+			 * @type {String}
 			 */
 			attachmentUrl: {
 				type: String,
 				value: 'attachments'
 			},
 
-			/**
+			/******
 			 * image save url
+			 * @type {String}
 			 */
 			attachmentSaveUrl: {
 				type: String,
 				value: 'attachments/update_multiple'
 			},
 
-			/**
-			 * grid buttons
+			/******
+			 * grid 버튼
+			 * @type {Array}
 			 */
 			buttons: {
 				type: Array,
@@ -398,23 +411,25 @@
 				}]
 			},
 
-			/**
+			/******
 			 * image 조회시 쿼리 필드
+			 * @type {Array}
 			 */
 			gridQueryFields: {
 				type: Array
 			},
 
-			/**
+			/******
 			 * 조회된 이미지의 sort field
+			 * @type {Array}
 			 */
 			gridSortFields: {
 				type: Array,
 				value: []
 			},
 
-			/**
-			 * The object used to localize this component.
+			/******
+			 * localize로 사용될 Object.
 			 *  Default: {
 					"dropFiles": {
 						"one": Drop file here...,
@@ -451,56 +466,59 @@
 						"size": [B, kB, MB, GB, TB, PB, EB, ZB, YB]
 					}
 				}
+			 *@type {Object}
 			 */
 			i18n: {
 				type: Object
 			},
 
-			/**
-			 * Limit of files to upload, by default it is unlimited. If the value is one, 
-			 * nomultiple is true.
+			/***********
+			 * 업로드 파일 최대개수 설정,default값은 제한없음.
+			 * @type {Number}
 			 */
 			maxFiles: {
 				type: Number,
 				value:Infinity
 			},
-
 			/**
-			 * Specifies the maximum file size allowed to upload. Default is unlimited.
+			 * 업로드 파일 최대사이즈,default값은 제한없음.
+			 * @type {Number}
 			 */
 			maxFileSize: {
 				type: Number,
 				value:Infinity
 			},
 
-			/**
-			 * HTTP Method used to send the files.
+			/******
+			 * HTTP 매소드
+			 * @type {String}
 			 */
 			method: {
 				type: String,
 				value:'POST'
 			},
 
-			/**
-			 * Define whether the element supports drop files on it for uploading. 
-			 * By default it's enabled in desktop and disabled in touch devices 
-			 * because almost mobile devices do not support drag events.
+			/*******
+			 * 드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
+			 * @type {Boolean}
 			 */
 			nodrop: {
 				type: Boolean,
 				value:false
 			},
 
-			/**
-			 * Specifies whether the file selection popup is configured to select multiple files.
+			/******
+			 * 여러 파일을 동시에 업로드여부
+			 * @type {Boolean}
 			 */
 			nomultiple: {
 				type: Boolean,
 				value:false
 			},
 
-			/**
-			 * Specifies if the cancel-all button is visible.
+			/*******
+			 * cancelall 기능
+			 * @type {Boolean}
 			 */
 			showCancelAll: {
 				type: Boolean,
@@ -514,43 +532,46 @@
 				type: String
 			},
 
-			/**
-			 * Max time for the upload process, if exceeded XHR will be aborted.
-			 */
+
+						/*******
+						 * 오랜 시간동안 업로드 하지 않으면 timeout 발생
+						 * @type {Number}
+						 */
 			timeout: {
 				type: Number,
 				value: 0
 			},
 
-			/**
-			 * file resource entity type
+			/*******
+			 * 파일 리소스 엔티티 타입
+			 * @type {String}
 			 */
 			resourceType:{
 				type: String
 			},
 
-			/**
+			/*******
 			 * resource Id
 			 */
 			resourceId:{
 				type: String
 			},
 
-			/**
+			/*******
 			 * resouce Tag
 			 */
 			resourceTag:{
 				type: String
 			},
 
-			/**
+			/********
 			 * compute basic url for reuqest generation
 			 */
 			_baseUrl:{
 				computed:'_getbaseUrl(globals.baseUrl)'
 			},
 
-			/**
+			/*******
 			 * 기본 storage를 전달 받아 맵핑 합니다.
 			 */
 			defaultStorage: {
@@ -574,7 +595,7 @@
 			'default-storage.things-ajax-response': '_defaultStorageValueChanged',
 			'attachment-grid.things-grid-save-success': 'refreshGridList'
 		},
-		
+
 		behaviors: [
 			Things.GlobalBehavior,
 			Things.SpinnerBehavior,
@@ -587,7 +608,7 @@
 		_defaultStorageChanged: function(defaultStorage) {
 			if(defaultStorage) {
 				this.$['default-storage'].resourceUrl = this.$['default-storage'].resourceUrl + '?name=' + defaultStorage;
-				this.$['default-storage'].generateRequest();		
+				this.$['default-storage'].generateRequest();
 			}
 		},
 
@@ -601,7 +622,7 @@
 		},
 
 		/**
-		 * Storage 선택시 
+		 * Storage 선택시
 		 */
 		_storageValueChangeHandler: function(e) {
 			this.storage = e.detail.value;
@@ -641,7 +662,7 @@
 		},
 
 		/**
-		 * when add file add file infomation on outer
+		 * 파일추가
 		 */
 		_fileAdd: function(event) {
 			var file = event.detail.file;
@@ -652,9 +673,9 @@
 			this._updateListItem(event);
 		},
 
-		/**
-		 * when file removed remove html tag
-		 */
+				/**
+				 * 파일삭제
+				 */
 		_fileRemove: function(event) {
 			// console.log('_fileRemove');
 			var file = event.detail.file;
@@ -664,7 +685,7 @@
 		},
 
 		/**
-		 * before send request make request url
+		 * 업로드전
 		 */
 		_uploadBefore:function(event){
 			// Prevent the upload request:
@@ -688,28 +709,28 @@
 		},
 
 		/**
-		 * when upload request sent this function will be worked
+		 * 업로드 request
 		 */
 		_uploadRequest:function(event){
 			// console.log(event);
 		},
 
 		/**
-		 * when upload result come in this function will be worked
+		 * 업로드 responese값
 		 */
 		_uploadResponse:function(event){
 			this.fire('things-upload-response', event.detail);
 		},
 
 		/**
-		 * when upload aborted this function will be worked
+		 * 업로드중
 		 */
 		_uploadAbort:function(event){
 
 		},
 
 		/**
-		 * 업로드, 삭제 결과가 응답하면 그리드를 refresh 한다. 
+		 * 업로드, 삭제 결과가 응답하면 그리드를 refresh 한다.
 		 */
 		refreshGridList: function() {
 			this.$['attachment-ajax'].generateRequest();

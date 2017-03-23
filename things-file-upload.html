@@ -10,9 +10,10 @@
 <link rel="import" href="../things-resource-combo/things-storage-combo.html">
 <link rel="import" href="things-upload.html">
 <!--
-A comment describing this element
+## things-file-upload
+파일 업로드 컴포넌트.
 
-	Example:
+###	Example:
 
 		<things-file-upload target="upload" method="POST" timeout="300000" ></things-file-upload>
 
@@ -73,41 +74,41 @@ A comment describing this element
 				--dark-primary-color: #0078A0;
 				--error-color: #E61E6E;
 			}
-			
+
 			nav {
 				display: block;
 			}
-			
+
 			nav.vertical-section {
 				margin-left: 0;
 				margin-right: 0;
 				padding-top: 8px;
 				padding-bottom: 0;
 			}
-			
+
 			nav > ul {
 				padding: 0;
 			}
-			
+
 			nav > ul > li {
 				padding: 0 24px 8px 0;
 				list-style: none;
 			}
-			
+
 			nav a,
 			nav b {
 				@apply(--paper-font-button);
 			}
-			
+
 			nav a {
 				color: var(--primary-color);
 				text-decoration: none;
 			}
-			
+
 			nav b {
 				color: var(--secondary-text-color);
 			}
-			
+
 			.centered {
 				max-width: 800px;
 			}
@@ -129,7 +130,7 @@ A comment describing this element
 		<div hidden="{{hidden}}">
 
 	    <things-ajax
-	      id="default-storage" 
+	      id="default-storage"
 	      resource-url="storage_infos/show_by_name"
 	      resource-action="get">
 	    </things-ajax>
@@ -137,9 +138,9 @@ A comment describing this element
 			<span class="title">[[title]]</span>
 
 			<things-upload
-							accept="[[accept]]" 
-							headers="[[headers]]" 
-							i18n="[[i18n]]" 
+							accept="[[accept]]"
+							headers="[[headers]]"
+							i18n="[[i18n]]"
 							maxFiles=[[maxFiles]]
 							maxFileSize=[[maxFileSize]]
 							method=[[method]]
@@ -164,62 +165,69 @@ A comment describing this element
 		is: 'things-file-upload',
 
 		properties: {
-			/**
-			 * 화면에 표시할 지 여부 
+			/*******
+			 * 화면에 표시할 지 여부
+			 * @type {Boolean}
 			 */
 			hidden: {
 				type: Boolean,
 				value: false
 			},
 
-			/**
+			/*******
 			 * selector 화면에 표시할지 여부
+			 * @type {Boolean}
 			 */
 			selectorHidden: {
 				type: Boolean,
 				value: false
 			},
 
-			/**
+			/********
 			 * tag 화면에 표시할지 여부
+			 * @type {Boolean}
 			 */
 			tagHidden: {
 				type: Boolean,
 				value: false
 			},
 
-			/**
+			/*******
 			 * Toolbar에 표시될 컴포넌트 타이틀
+			 * @type {String}
 			 */
 			title: {
 				type: String,
 				value: 'File Upload'
 			},
-			
-			/**
-			 * 선택된 storage 정보 
+
+			/*******
+			 * 선택된 storage 정보
+			 * @type {String}
 			 */
 			storage: {
 				type: String
 			},
 
-			/**
-			 * Specifies the types of files that the server accepts. 
-			 * Syntax: file_extension|audio/|video/|image/*|media_type
+			/******
+			 * 파일type 설정
+			 * 예: file_extension|audio/|video/|image/*|media_type
+			 * @type {String}
 			 */
 			accept: {
 				type: String
 			},
 
-			/**
-			 * Key-Value map to send to the server.
+			/********
+			 * 서버로 보낼 Key-Value map 형식의 Object
+			 * @type {Object}
 			 */
 			headers: {
 				type: Object
 			},
 
-			/**
-			 * The object used to localize this component.
+			/********
+			 * localize로 사용될 Object.
 			 *  Default: {
 					"dropFiles": {
 						"one": Drop file here...,
@@ -256,14 +264,15 @@ A comment describing this element
 						"size": [B, kB, MB, GB, TB, PB, EB, ZB, YB]
 					}
 				}
+			 *@type {Object}
 			 */
 			i18n: {
 				type: Object
 			},
 
-			/**
-			 * Limit of files to upload, by default it is unlimited. If the value is one, 
-			 * nomultiple is true.
+			/***********
+			 * 업로드 파일 최대개수 설정,default값은 제한없음.
+			 * @type {Number}
 			 */
 			maxFiles: {
 				type: Number,
@@ -271,41 +280,44 @@ A comment describing this element
 			},
 
 			/**
-			 * Specifies the maximum file size allowed to upload. Default is unlimited.
+			 * 업로드 파일 최대사이즈,default값은 제한없음.
+			 * @type {Number}
 			 */
 			maxFileSize: {
 				type: Number,
 				value:Infinity
 			},
 
-			/**
-			 * HTTP Method used to send the files.
+			/******
+			 * HTTP 매소드
+			 * @type {String}
 			 */
 			method: {
 				type: String,
 				value:'POST'
 			},
 
-			/**
-			 * Define whether the element supports drop files on it for uploading. 
-			 * By default it's enabled in desktop and disabled in touch devices 
-			 * because almost mobile devices do not support drag events.
+			/*******
+			 * 드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
+			 * @type {Boolean}
 			 */
 			nodrop: {
 				type: Boolean,
 				value:false
 			},
 
-			/**
-			 * Specifies whether the file selection popup is configured to select multiple files.
+			/******
+			 * 여러 파일을 동시에 업로드여부
+			 * @type {Boolean}
 			 */
 			nomultiple: {
 				type: Boolean,
 				value:false
 			},
 
-			/**
-			 * Specifies if the cancel-all button is visible.
+			/*******
+			 * cancelall 기능
+			 * @type {Boolean}
 			 */
 			showCancelAll: {
 				type: Boolean,
@@ -314,49 +326,55 @@ A comment describing this element
 
 			/**
 			 * Server URL.
+			 * @type {String}
 			 */
 			target: {
 				type: String
 			},
 
-			/**
-			 * Max time for the upload process, if exceeded XHR will be aborted.
+			/*******
+			 * 오랜 시간동안 업로드 하지 않으면 timeout 발생
+			 * @type {Number}
 			 */
 			timeout: {
 				type: Number,
 				value: 0
 			},
 
-			/**
-			 * file resource entity type
+			/*******
+			 * 파일 리소스 엔티티 타입
+			 * @type {String}
 			 */
 			resourceType:{
 				type: String
 			},
 
-			/**
+			/*******
 			 * resource Id
+			 * @type {String}
 			 */
 			resourceId:{
 				type: String
 			},
 
-			/**
+			/*******
 			 * resouce Tag
+			 * @type {String}
 			 */
 			resourceTag:{
 				type: String
 			},
 
-			/**
+			/********
 			 * compute basic url for reuqest generation
 			 */
 			_baseUrl:{
 				computed:'_getbaseUrl(globals.baseUrl)'
 			},
 
-			/**
+			/******
 			 * 기본 storage를 전달 받아 맵핑 합니다.
+			 * @type {String}
 			 */
 			defaultStorage: {
 				type: String,
@@ -378,25 +396,27 @@ A comment describing this element
 			'storage.things-combo-value-changed' : '_storageValueChangeHandler',
 			'default-storage.things-ajax-response': '_defaultStorageValueChanged'
 		},
-		
+
 		behaviors: [
 			Things.GlobalBehavior,
 			Things.SpinnerBehavior,
 			Things.MsgBoxBehavior
 		],
 
-		/**
+		/********
 		 * 전달받은 defaultStorage를 이용하여 ajax 호출 합니다.
+		 * @param {defaultStorage} defaultStorage
 		 */
 		_defaultStorageChanged: function(defaultStorage) {
 			if(defaultStorage) {
 				this.$['default-storage'].resourceUrl = this.$['default-storage'].resourceUrl + '?name=' + defaultStorage;
-				this.$['default-storage'].generateRequest();		
+				this.$['default-storage'].generateRequest();
 			}
 		},
 
-		/**
+		/********
 		 * ajax 호출 listner로 response를 통해 storage의 값들을 초기화 합니다.
+		 * @param {e} e #### :storage값
 		 */
 		_defaultStorageValueChanged: function(e) {
 			this.$.storage.name = e.detail.description;
@@ -404,22 +424,24 @@ A comment describing this element
 			this.storage = e.detail.name;
 		},
 
-		/**
-		 * Storage 선택시 
+		/*********
+		 * Storage 선택시
+		 * @param {e} e #### :storage값
 		 */
 		_storageValueChangeHandler: function(e) {
 			this.storage = e.detail.value;
 		},
 
-		/**
+		/*******
 		 * compute basic url
+		 * @param {baseUrl} baseUrl
 		 */
 		_getbaseUrl: function(baseUrl) {
 			return baseUrl;
 		},
 
 		/**
-		 * when upload process this function will update list status
+		 * 업로드 상태,업로드중 진척현황
 		 */
 		_updateListItem: function(event) {
 			var file = event.detail.file;
@@ -443,7 +465,7 @@ A comment describing this element
 		},
 
 		/**
-		 * when add file add file infomation on outer
+		 * 파일추가
 		 */
 		_fileAdd: function(event) {
 			var file = event.detail.file;
@@ -455,7 +477,7 @@ A comment describing this element
 		},
 
 		/**
-		 * when file removed remove html tag
+		 * 파일삭제
 		 */
 		_fileRemove: function(event) {
 			// console.log('_fileRemove');
@@ -466,7 +488,7 @@ A comment describing this element
 		},
 
 		/**
-		 * before send request make request url
+		 * 업로드전
 		 */
 		_uploadBefore:function(event){
 			// Prevent the upload request:
@@ -490,21 +512,21 @@ A comment describing this element
 		},
 
 		/**
-		 * when upload request sent this function will be worked
+		 * 업로드 request
 		 */
 		_uploadRequest:function(event){
 			// console.log(event);
 		},
 
 		/**
-		 * when upload result come in this function will be worked
+		 * 업로드 responese값
 		 */
 		_uploadResponse:function(event){
 			this.fire('things-upload-response', event.detail);
 		},
 
 		/**
-		 * when upload aborted this function will be worked
+		 * 업로드중
 		 */
 		_uploadAbort:function(event){
 

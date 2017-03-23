@@ -1,7 +1,10 @@
 <!--
+## things-upload
 `<things-upload>` is a Polymer element for uploading multiple files with drag and drop support.
 
-Example:
+`<things-upload>` 는 여러개의 파일을 동시에 업로드할수 있는 컴포넌트이다.
+
+### Example:
 
 ```html
 <things-upload></things-upload>
@@ -9,8 +12,6 @@ Example:
 
 ### Custom File List Item Template
 
-In order to replace `<things-upload-file>` with your file representation,
-add a `<template class="file">...</template>` to the light DOM:
 
 ```html
 <things-upload>
@@ -24,19 +25,32 @@ add a `<template class="file">...</template>` to the light DOM:
 
 The following custom properties are available for styling the component.
 
+Style 형식에는 아래와 같다.
+
 Custom property | Description | Default
 ----------------|-------------|----------
 `--things-upload-drag-ripple`|styles for the ripple animation in the drop area|`{}`
+|애니메인션 스타일|`{}`
 `--things-upload-drop-label`|styles for the drop label|`{}`
+|라벨 스타일|`{}`
 `--things-upload-drop-label-dragover`|styles for the drop label when overing the component with files|`{}`
+|라벨 드레고버 스타일|`{}`
 `--things-upload-drop-label-icon`|styles for the drop icon|`{}`
+|라벨 아이콘 스타일|`{}`
 `--things-upload-file-list`|styles for the file list|`{}`
+|파일 리스트 스타일|`{}`
 `--things-upload-buttons`|styles for the buttons container|`{}`
+|업로드 버튼 스타일|`{}`
 `--things-upload-buttons-nodrop`|styles for the buttons container when `nodrop` property is `true`|`{}`
+|업로드 버튼 nodrop스타일|`{}`
 `--things-upload-button`|styles for the buttons|`{}`
+|업로드 버튼 nodrop스타일|`{}`
 `--things-upload-button-add`|styles for the upload button|`{}`
+|업로드 버튼 nodrop스타일|`{}`
 `--things-upload-button-add-nodrop`|styles for the upload button when `nodrop` property is `true`|`{}`
+|업로드 버튼 nodrop스타일|`{}`
 `--things-upload-file-canceled`|styles for the upload cancel. Use for overriding file cancel animation|`{}`
+|업로드 파일 cancel 스타일|`{}`
 
 
 
@@ -185,11 +199,16 @@ Custom property | Description | Default
     is: 'things-upload',
 
     properties: {
-      /**
-       * Define whether the element supports drop files on it for uploading.
-       * By default it's enabled in desktop and disabled in touch devices
-       * because almost mobile devices do not support drag events.
-       */
+      /*****
+       *en-us
+       *
+			 *Define whether the element supports drop files on it for uploading.
+			 ******
+			 *ko-kr
+			 *
+			 *드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
+			 * @type {Boolean}
+			 */
       nodrop: {
         type: Boolean,
         reflectToAttribute: true,
@@ -201,34 +220,58 @@ Custom property | Description | Default
           }
         },
       },
-
-      /**
-       * Server URL.
-       */
+      /*****
+       *en-us
+       *
+			 *Server URL.
+			 ******
+			 *ko-kr
+			 *
+			 *서버 URL.
+			 * @type {String}
+			 */
       target: {
         type: String,
         value: ''
       },
-
-      /**
-       * HTTP Method used to send the files.
-       */
+      /*****
+       *en-us
+       *
+			 *HTTP Method used to send the files.
+			 ******
+			 *ko-kr
+			 *
+			 *HTTP 매소드
+			 * @type {String}
+			 */
       method: {
         type: String,
         value: 'POST'
       },
-
-      /**
-       * Key-Value map to send to the server.
-       */
+      /*****
+       *en-us
+       *
+			 *Key-Value map to send to the server.
+			 ******
+			 *ko-kr
+			 *
+			 *서버로 보낼 Key-Value map Object
+			 * @type {Object}
+			 */
       headers: {
         type: Object,
         value: {}
       },
-
-      /**
-       * Max time for the upload process, if exceeded XHR will be aborted.
-       */
+      /*****
+       *en-us
+       *
+			 *Max time for the upload process, if exceeded XHR will be aborted.
+			 ******
+			 *ko-kr
+			 *
+			 *오랜 시간동안 업로드 하지 않으면 timeout 발생
+			 * @type {Number}
+			 */
       timeout: {
         type: Number,
         value: 0
@@ -239,10 +282,16 @@ Custom property | Description | Default
         value: false,
         observer: '_dragoverChanged'
       },
-
-      /**
-       * Specifies if the cancel-all button is visible.
-       */
+      /*****
+       *en-us
+       *
+			 *Specifies if the cancel-all button is visible.
+			 ******
+			 *ko-kr
+			 *
+			 *cancelall 기능
+			 * @type {Boolean}
+			 */
       showCancelAll: {
         type: Boolean,
         value: false
@@ -255,46 +304,71 @@ Custom property | Description | Default
           return [];
         }
       },
-
-      /**
-       * Specifies whether the file selection popup is configured to select
-       * multiple files.
-       */
+      /*****
+       *en-us
+       *
+			 *Specifies whether the file selection popup is configured to select
+			 ******
+			 *ko-kr
+			 *
+			 *여러 파일을 동시에 업로드여부
+			 * @type {Boolean}
+			 */
        nomultiple: {
          type: Boolean,
          value: false
        },
-
-      /**
-       * Limit of files to upload, by default it is unlimited. If the value is
-       * one, nomultiple is true.
-       */
+       /*****
+        *en-us
+        *
+ 			 *Limit of files to upload, by default it is unlimited.
+ 			 ******
+ 			 *ko-kr
+ 			 *
+ 			 *업로드 파일 최대개수 설정,default값은 제한없음.
+ 			 * @type {Number}
+ 			 */
        maxFiles: {
          type: Number,
          value: Infinity
        },
-
-      /**
-       * Specifies the types of files that the server accepts.
-       * Syntax: file_extension|audio/*|video/*|image/*|media_type
-       */
+       /*****
+       *en-us
+       *
+ 			 *Specifies the types of files that the server accepts.
+ 			 ******
+ 			 *ko-kr
+ 			 *
+ 			 *파일type 설정
+ 			 * @type {String}
+ 			 */
       accept: {
         type: String,
         value: ''
       },
-
-      /**
-       * Specifies the maximum file size allowed to upload. Default is
-       * unlimited.
+      /*****
+       *en-us
+       *
+       *Specifies the maximum file size allowed to upload.
+       ******
+       *ko-kr
+       *
+       *업로드 파일 최대사이즈,default값은 제한없음.
+       * @type {Number}
        */
       maxFileSize: {
         type: Number,
         value: Infinity
       },
-
-      /**
-       * Specifies if the dragover is validated with maxFiles and
-       * accept properties.
+      /*****
+       *en-us
+       *
+       *Specifies if the dragover is validated with maxFiles
+       ******
+       *ko-kr
+       *
+       *Specifies if the dragover is validated with maxFiles
+       * @type {Boolean}
        */
       _dragoverValid: {
         type: Boolean,
@@ -302,9 +376,6 @@ Custom property | Description | Default
         observer: '_dragoverValidChanged'
       },
 
-      /**
-       * The object used to localize this component.
-       */
       i18n: {
         type: Object,
         value: function() {
@@ -746,38 +817,58 @@ Custom property | Description | Default
 
   });
 
-  /**
+  /********
+   *en-us
+   *
    * Fired when a file cannot be added to the queue due to a constrain:
    *  file-size, file-type or maxFiles
+   *******
+   *ko-kr
    *
+   * 파일 업로드 거절
    * @event file-reject
    * @param {Object} detail
    *  @param {Object} detail.file the file added
    *  @param {Object} detail.error the cause
    */
 
-  /**
-   * Fired when a file is added for uploading.
+  /*********
+   *en-us
    *
+   * Fired when a file is added for uploading.
+   ******
+   *ko-kr
+   *
+   * 업로드 파일 추가
    * @event file-add
    * @param {Object} detail
    *  @param {Object} detail.file the file added
    */
 
-  /**
+  /*******
+   *en-us
+   *
    * Fired when a file is removed from the file list, e. g. when the file
    * upload is aborted. If the default is prevented, then the file would not be
    * removed from the list.
+   *******
+   *ko-kr
    *
+   * 업로드전 파일 삭제
    * @event file-remove
    * @param {Object} detail
    *  @param {Object} detail.file the file to be removed
    */
 
-  /**
+  /*******
+   *en-us
+   *
    * Fired before the XHR is opened. Could be used for changing the request
    * URL. If the default is prevented, then XHR would not be opened.
+   *******
+   *ko-kr
    *
+   * 업로드 전
    * @event upload-before
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
@@ -785,37 +876,54 @@ Custom property | Description | Default
    *   @param {Object} detail.file.uploadTarget the upload request URL, initialized with the value of vaadin-upload `target` property
    */
 
-  /**
+  /********
+   *en-us
+   *
    * Fired when the XHR has been opened but not sent yet.
    * Useful to change some parameters like headers, etc.
    * If the event is preventDefault `vaadin-upload` will not send the
    * request allowing the user to do something on his own.
+   ******
+   *ko-kr
    *
+   * 업로드 request
    * @event upload-request
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
    *  @param {Object} detail.file the file being uploaded
    */
 
-  /**
-   * Fired when the XHR is sent.
+  /********
+   *en-us
    *
+   * Fired when the XHR is sent.
+   ******
+   *ko-kr
+   *
+   * 업로드 시작
    * @event upload-start
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
    *  @param {Object} detail.file the file being uploaded
    */
 
-  /**
-   * Fired as many times as the progress is updated.
+  /*********
+   *en-us
    *
+   * Fired as many times as the progress is updated.
+   ******
+   *ko-kr
+   *
+   * 업로드 상태
    * @event upload-progress
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
    *  @param {Object} detail.file the file being uploaded with loaded info
    */
 
-  /**
+  /*******
+   * en-us
+   *
    * Fired when we have the actual server response, and before the component
    * analises it. It's useful for developers to make the upload fail depending
    * on the server response. If the event is preventDefault the vaadin-upload
@@ -824,45 +932,68 @@ Custom property | Description | Default
    * Otherwise, if the event is not prevented default `vaadin-upload` continues
    * with the normal workflow checking the `xhr.status` and `file.error`
    * which also might be modified by the user to force a customised response.
+   ********
+   *ko-kr
    *
+   *업로드 response
    * @event upload-response
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
    *  @param {Object} detail.file the file being uploaded
    */
 
-  /**
-   * Fired in case the upload process succeed.
+  /********
+   *en-us
    *
+   * Fired in case the upload process succeed.
+   *******
+   *ko-kr
+   *
+   *업로드 성공
    * @event upload-success
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
    *  @param {Object} detail.file the file being uploaded with loaded info
    */
 
-  /**
-   * Fired in case the upload process failed.
+  /*********
+   *en-us
    *
+   * Fired in case the upload process failed.
+   *******
+   *ko-kr
+   *
+   *업로드 실패시 발생에러
    * @event upload-error
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
    *  @param {Object} detail.file the file being uploaded
    */
 
-  /**
+  /***********
+   *en-us
+   *
    * Fired when retry upload is requested. If the default is prevented, then
    * retry would not be performed.
+   ********
+   *ko-kr
    *
+   * 업로드 재요청
    * @event upload-retry
    * @param {Object} detail
    *  @param {Object} detail.xhr the previous upload xhr
    *  @param {Object} detail.file the file being uploaded
    */
 
-  /**
+  /*******
+   *en-us
+   *
    * Fired when retry abort is requested. If the default is prevented, then the
    * file upload would not be aborted.
+   * *******
+   * ko-kr
    *
+   *업로드중
    * @event upload-abort
    * @param {Object} detail
    *  @param {Object} detail.xhr the xhr
