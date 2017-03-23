@@ -140,8 +140,9 @@
 
 		properties: {
 
-			/*******
+			/**
 			 * 화면에 표시할 지 여부
+			 * *******
 			 * @type {Boolean}
 			 */
 			hidden: {
@@ -149,8 +150,9 @@
 				value: false
 			},
 
-			/******
+			/**
 			 * selector 화면에 표시할지 여부
+			 * *******
 			 * @type {Boolean}
 			 */
 			selectorHidden: {
@@ -158,8 +160,9 @@
 				value: false
 			},
 
-			/******
+			/**
 			 * tag 화면에 표시할지 여부
+			 * *******
 			 * @type {Boolean}
 			 */
 			tagHidden: {
@@ -167,8 +170,9 @@
 				value: false
 			},
 
-			/******
+			/**
 			 * Toolbar에 표시될 컴포넌트 타이틀
+			 * *******
 			 * @type {String}
 			 */
 			title: {
@@ -176,33 +180,37 @@
 				value: 'File Upload'
 			},
 
-			/******
+			/**
 			 * 선택된 storage 정보
+			 * *******
 			 * @type {String}
 			 */
 			storage: {
 				type: String
 			},
 
-			/******
+			/**
 			 * 파일type 설정
 			 * 예: file_extension|audio/|video/|image/*|media_type
+			 * *******
 			 * @type {String}
 			 */
 			accept: {
 				type: String
 			},
 
-			/********
+			/**
 			 * 서버로 보낼 Key-Value map 형식의 Object
+			 * *******
 			 * @type {Object}
 			 */
 			headers: {
 				type: Object
 			},
 
-			/******
+			/**
 			 * grid config
+			 * *******
 			 * @type {Object}
 			 */
 			gridConfig: {
@@ -210,9 +218,10 @@
 				value: {}
 			},
 
-			/*******
+			/**
 			 * grid 모델
 			 * @type {Array}
+			 * *******
 			 */
 			gridModel: {
 				type: Array,
@@ -237,8 +246,9 @@
 				}]
 			},
 
-			/******
+			/**
 			 * grid 필드
+			 * *******
 			 * @type {Array}
 			 */
 			gridColumns: {
@@ -378,8 +388,9 @@
 				}
 			},
 
-			/******
+			/**
 			 * image 소스를 조회할 url
+			 * *******
 			 * @type {String}
 			 */
 			attachmentUrl: {
@@ -387,8 +398,9 @@
 				value: 'attachments'
 			},
 
-			/******
+			/**
 			 * image save url
+			 * *******
 			 * @type {String}
 			 */
 			attachmentSaveUrl: {
@@ -396,8 +408,9 @@
 				value: 'attachments/update_multiple'
 			},
 
-			/******
+			/**
 			 * grid 버튼
+			 * *******
 			 * @type {Array}
 			 */
 			buttons: {
@@ -411,16 +424,18 @@
 				}]
 			},
 
-			/******
+			/**
 			 * image 조회시 쿼리 필드
+			 * *******
 			 * @type {Array}
 			 */
 			gridQueryFields: {
 				type: Array
 			},
 
-			/******
+			/**
 			 * 조회된 이미지의 sort field
+			 * *******
 			 * @type {Array}
 			 */
 			gridSortFields: {
@@ -428,7 +443,7 @@
 				value: []
 			},
 
-			/******
+			/**
 			 * localize로 사용될 Object.
 			 *  Default: {
 					"dropFiles": {
@@ -466,14 +481,16 @@
 						"size": [B, kB, MB, GB, TB, PB, EB, ZB, YB]
 					}
 				}
+			 *******
 			 *@type {Object}
 			 */
 			i18n: {
 				type: Object
 			},
 
-			/***********
+			/**
 			 * 업로드 파일 최대개수 설정,default값은 제한없음.
+			 * *******
 			 * @type {Number}
 			 */
 			maxFiles: {
@@ -482,6 +499,7 @@
 			},
 			/**
 			 * 업로드 파일 최대사이즈,default값은 제한없음.
+			 * *******
 			 * @type {Number}
 			 */
 			maxFileSize: {
@@ -489,8 +507,9 @@
 				value:Infinity
 			},
 
-			/******
+			/**
 			 * HTTP 매소드
+			 * *******
 			 * @type {String}
 			 */
 			method: {
@@ -498,8 +517,9 @@
 				value:'POST'
 			},
 
-			/*******
+			/**
 			 * 드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
+			 * *******
 			 * @type {Boolean}
 			 */
 			nodrop: {
@@ -507,8 +527,9 @@
 				value:false
 			},
 
-			/******
+			/**
 			 * 여러 파일을 동시에 업로드여부
+			 * *******
 			 * @type {Boolean}
 			 */
 			nomultiple: {
@@ -516,8 +537,9 @@
 				value:false
 			},
 
-			/*******
+			/**
 			 * cancelall 기능
+			 * *******
 			 * @type {Boolean}
 			 */
 			showCancelAll: {
@@ -527,14 +549,17 @@
 
 			/**
 			 * Server URL.
+			 * *******
+			 * @type {String}
 			 */
 			target: {
 				type: String
 			},
 
 
-						/*******
+						/**
 						 * 오랜 시간동안 업로드 하지 않으면 timeout 발생
+						 * *******
 						 * @type {Number}
 						 */
 			timeout: {
@@ -542,37 +567,45 @@
 				value: 0
 			},
 
-			/*******
+			/**
 			 * 파일 리소스 엔티티 타입
+			 * *******
 			 * @type {String}
 			 */
 			resourceType:{
 				type: String
 			},
 
-			/*******
+			/**
 			 * resource Id
+			 * *******
+			 * @type {String}
 			 */
 			resourceId:{
 				type: String
 			},
 
-			/*******
+			/**
 			 * resouce Tag
+			 * ********
+			 * @type {String}
 			 */
 			resourceTag:{
 				type: String
 			},
 
-			/********
+			/**
 			 * compute basic url for reuqest generation
+			 *
 			 */
 			_baseUrl:{
 				computed:'_getbaseUrl(globals.baseUrl)'
 			},
 
-			/*******
+			/**
 			 * 기본 storage를 전달 받아 맵핑 합니다.
+			 * *******
+			 * @type {String}
 			 */
 			defaultStorage: {
 				type: String,
