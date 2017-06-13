@@ -1,14 +1,16 @@
 <link rel="import" href="../polymer/polymer.html">
+
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 
 <link rel="import" href="../things-global-behavior/things-global-behavior.html">
-<link rel="import" href="../things-spinner/things-spinner-behavior.html">
-<link rel="import" href="../things-msg-box-behavior/things-msg-box-behavior.html">
 <link rel="import" href="../things-input-field/things-input-field.html">
-
+<link rel="import" href="../things-msg-box-behavior/things-msg-box-behavior.html">
 <link rel="import" href="../things-resource-combo/things-storage-combo.html">
+<link rel="import" href="../things-spinner/things-spinner-behavior.html">
+
 <link rel="import" href="things-upload.html">
+
 <!--
 ## things-file-upload
 파일 업로드 컴포넌트.
@@ -116,6 +118,7 @@
 				max-width: 800px;
 			}
 		</style>
+
 		<style>
 			:host {
 				display: block;
@@ -130,40 +133,53 @@
 			:host::shadow .things-file-upload .title{display:none;}
 		</style>
 
+		<things-ajax
+			id="default-storage"
+			resource-url="storage_infos/show_by_name"
+			resource-action="get">
+		</things-ajax>
+
 		<div hidden="{{hidden}}">
-
-	    <things-ajax
-	      id="default-storage"
-	      resource-url="storage_infos/show_by_name"
-	      resource-action="get">
-	    </things-ajax>
-
 			<span class="title">[[title]]</span>
 
 			<things-upload
-							accept="[[accept]]"
-							headers="[[headers]]"
-							i18n="[[i18n]]"
-							maxFiles=[[maxFiles]]
-							maxFileSize=[[maxFileSize]]
-							method=[[method]]
-							nodrop=[[nodrop]]
-							nomultiple=[[nomultiple]]
-							showCancelAll=[[showCancelAll]]
-							target=[[target]]
-							timeout=[[timeout]]
-							id="fileUpload">
+				id="fileUpload"
+				accept="[[accept]]"
+				headers="[[headers]]"
+				i18n="[[i18n]]"
+				maxFiles=[[maxFiles]]
+				maxFileSize=[[maxFileSize]]
+				method=[[method]]
+				nodrop=[[nodrop]]
+				nomultiple=[[nomultiple]]
+				showCancelAll=[[showCancelAll]]
+				target=[[target]]
+				timeout=[[timeout]]>
 				<content></content>
 			</things-upload>
 
-			<things-storage-combo id="storage" hidden="{{selectorHidden}}"></things-storage-combo>
-			<things-input-field id="tag" label="Tag" value="{{resourceTag}}" hidden="{{tagHidden}}"></things-input-field>
+			<things-storage-combo 
+				id="storage" 
+				hidden="{{selectorHidden}}">
+			</things-storage-combo>
+			
+			<things-input-field 
+				id="tag" 
+				label="Tag" 
+				value="{{resourceTag}}" 
+				hidden="{{tagHidden}}">
+			</things-input-field>
+			
+			<things-tristate-radio 
+				id="keep-filename" 
+				label="Keep Filename" 
+				value="{{keepFilename}}" 
+				hidden="{{keepFilenameHidden}}">
+			</things-tristate-radio>
 		</div>
-
 	</template>
 
 	<script>
-
 	Polymer({
 		is: 'things-file-upload',
 
@@ -196,6 +212,16 @@
 			tagHidden: {
 				type: Boolean,
 				value: false
+			},
+
+			/**
+			 * 파일명을 업로드 후에 유지할 지 여부
+			 * *******
+			 * @type {Boolean}
+			 */
+			keepFilenameHidden: {
+				type: Boolean,
+				value: true
 			},
 
 			/**
@@ -368,7 +394,7 @@
 			 * *******
 			 * @type {String}
 			 */
-			resourceType:{
+			resourceType: {
 				type: String
 			},
 
@@ -377,7 +403,7 @@
 			 * *******
 			 * @type {String}
 			 */
-			resourceId:{
+			resourceId: {
 				type: String
 			},
 
@@ -386,16 +412,26 @@
 			 * *******
 			 * @type {String}
 			 */
-			resourceTag:{
+			resourceTag: {
 				type: String
+			},
+
+			/**
+			 * 파일명을 업로드 후에도 유지할 지 여부 
+			 * *******
+			 * @type {Boolean}
+			 */
+			keepFilename: {
+				type: Boolean,
+				value: false
 			},
 
 			/**
 			 * compute basic url for reuqest generation
 			 * *******
 			 */
-			_baseUrl:{
-				computed:'_getbaseUrl(globals.baseUrl)'
+			_baseUrl: {
+				computed: '_getbaseUrl(globals.baseUrl)'
 			},
 
 			/**
@@ -430,19 +466,22 @@
 			Things.MsgBoxBehavior
 		],
 
-		/********
+		/**
 		 * 전달받은 defaultStorage를 이용하여 ajax 호출 합니다.
+		 ***********
 		 * @param {defaultStorage} defaultStorage
 		 */
 		_defaultStorageChanged: function(defaultStorage) {
 			if(defaultStorage) {
-				this.$['default-storage'].resourceUrl = this.$['default-storage'].resourceUrl + '?name=' + defaultStorage;
-				this.$['default-storage'].generateRequest();
+				var storageAjax = this.$['default-storage'];
+				storageAjax.resourceUrl = storageAjax.resourceUrl + '?name=' + defaultStorage;
+				storageAjax.generateRequest();
 			}
 		},
 
-		/********
+		/**
 		 * ajax 호출 listner로 response를 통해 storage의 값들을 초기화 합니다.
+		 **********
 		 * @param {e} e #### :storage값
 		 */
 		_defaultStorageValueChanged: function(e) {
@@ -451,16 +490,18 @@
 			this.storage = e.detail.name;
 		},
 
-		/*********
+		/**
 		 * Storage 선택시
-		 * @param {e} e #### :storage값
+		 ************
+		 * @param {e} e #### :storage 값
 		 */
 		_storageValueChangeHandler: function(e) {
 			this.storage = e.detail.value;
 		},
 
-		/*******
+		/**
 		 * compute basic url
+		 ********
 		 * @param {baseUrl} baseUrl
 		 */
 		_getbaseUrl: function(baseUrl) {
@@ -468,31 +509,40 @@
 		},
 
 		/**
-		 * 업로드 상태,업로드중 진척현황
+		 * 업로드 상태, 업로드 중 진척 현황
+		 *********
+		 * @param {Object} event
 		 */
 		_updateListItem: function(event) {
 			var file = event.detail.file;
+
 			if (file.listItem) {
 				file.listItem.querySelector('strong').textContent = file.name;
-
 				var status = file.listItem.querySelector('span');
+
 				switch (event.type) {
 					case 'upload-success':
 						status.textContent = 'Uploaded.';
-						// console.log(event);
 						break;
+
 					case 'upload-error':
-						status.textContent = file.error;
+						if(file.xhr && file.xhr.responseText) {
+							this.openResponseError(JSON.parse(file.xhr.responseText));	
+						}
+						
+						status.textContent = file.xhr.responseText;
 						break;
+
 					default:
 						status.textContent = file.status;
-						break;
 				}
 			}
 		},
 
 		/**
-		 * 파일추가
+		 * 파일 추가
+		 ********
+		 * @param {Object} event
 		 */
 		_fileAdd: function(event) {
 			var file = event.detail.file;
@@ -504,10 +554,11 @@
 		},
 
 		/**
-		 * 파일삭제
+		 * 파일 삭제
+		 ********
+		 * @param {Object} event
 		 */
 		_fileRemove: function(event) {
-			// console.log('_fileRemove');
 			var file = event.detail.file;
 			if (file.listItem) {
 				this.$.customFilesList.removeChild(file.listItem);
@@ -515,50 +566,54 @@
 		},
 
 		/**
-		 * 업로드전
+		 * 업로드 전
+		 ********
+		 * @param {Object} event
 		 */
-		_uploadBefore:function(event){
-			// Prevent the upload request:
+		_uploadBefore: function(event) {
 			// event.preventDefault();
 
-			// Custom upload request url for file
 			var file = event.detail.file;
 			var target = this.$.fileUpload.target
-			// file.on_id = this.resourceId;
-			// file.on_type = this.resourceType;
-
 			var formData = event.detail.formData;
 
 			if(this.resourceId) {
 				formData.append('onId', this.resourceId);
-				formData.append('onType',this.resourceType);
+				formData.append('onType', this.resourceType);
 			}
 
 			file.xhr.withCredentials = true;
 			file.uploadTarget = [this._baseUrl, target, this.storage].join('/');
+			
+			if(this.keepFilename) {
+				file.uploadTarget = file.uploadTarget + '?keep_filename=true';
+			}
 		},
 
 		/**
 		 * 업로드 request
+		 ********
+		 * @param {Object} event
 		 */
-		_uploadRequest:function(event){
-			// console.log(event);
+		_uploadRequest: function(event) {
 		},
 
 		/**
-		 * 업로드 responese값
+		 * 업로드 responese
+		 ********
+		 * @param {Object} event
 		 */
-		_uploadResponse:function(event){
+		_uploadResponse: function(event) {
 			this.fire('things-upload-response', event.detail);
 		},
 
 		/**
-		 * 업로드중
+		 * 업로드 중지 
+		 ********
+		 * @param {Object} event
 		 */
-		_uploadAbort:function(event){
-
+		_uploadAbort: function(event) {
 		}
-
 	});
 	</script>
 </dom-module>

@@ -169,24 +169,28 @@ Custom property | Description | Default
 
     <things-i18n-msg msgid="label.storage" msg="{{lImageSelector}}" auto hidden>Image Selector</things-i18n-msg>
 
-
     <div id="dropLabel" hidden$="[[nodrop]]">
       <content select=".drop-label">
         <iron-icon icon="file-upload"></iron-icon>
         [[_i18nPlural(maxFiles, i18n.dropFiles)]]
       </content>
     </div>
+
     <div id="buttons">
       <paper-button id="addFiles" on-tap="_onAddFilesClick" disabled="[[_maxFilesAdded(maxFiles, files.length)]]">[[_i18nPlural(maxFiles, i18n.addFiles)]]</paper-button>
       <paper-button id="cancelAll" on-tap="_onCancelAllClick" hidden$="[[!showCancelAll]]">[[i18n.cancelAll]]</paper-button>
     </div>
+    
     <template id="defaultFileTemplate">
       <things-upload-template file="[[file]]"></things-upload-template>
     </template>
+    
     <div id="fileList" on-file-remove="_onFileRemove">
       <template id="fileListRepeater" is="dom-repeat" items="[[files]]" as="file"></template>
     </div>
+    
     <content></content>
+    
     <input type="file" id="fileInput" on-change="_onFileInputChange" hidden accept="{{accept}}">
     <paper-ripple id="dragRipple" noink></paper-ripple>
   </template>
@@ -202,14 +206,14 @@ Custom property | Description | Default
       /**
        *en-us
        *
-			 *Define whether the element supports drop files on it for uploading.
-			 *
-			 *ko-kr
-			 *
-			 *드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
-			 ***********
-			 * @type {Boolean}
-			 */
+       *Define whether the element supports drop files on it for uploading.
+       *
+       *ko-kr
+       *
+       *드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
+       ***********
+       * @type {Boolean}
+       */
       nodrop: {
         type: Boolean,
         reflectToAttribute: true,
@@ -221,62 +225,66 @@ Custom property | Description | Default
           }
         },
       },
+
       /**
        *en-us
        *
-			 *Server URL.
-			 **
-			 *ko-kr
-			 *
-			 *서버 URL.
-			 ********
-			 * @type {String}
-			 */
+       *Server URL.
+       **
+       *ko-kr
+       *
+       *서버 URL.
+       ********
+       * @type {String}
+       */
       target: {
         type: String,
         value: ''
       },
+
       /**
        *en-us
        *
-			 *HTTP Method used to send the files.
-			 *
-			 *ko-kr
-			 *
-			 *HTTP 매소드
-			 ********
-			 * @type {String}
-			 */
+       *HTTP Method used to send the files.
+       *
+       *ko-kr
+       *
+       *HTTP 매소드
+       ********
+       * @type {String}
+       */
       method: {
         type: String,
         value: 'POST'
       },
+
       /**
        *en-us
        *
-			 *Key-Value map to send to the server.
-			 *
-			 *ko-kr
-			 *
-			 *서버로 보낼 Key-Value map Object
-			 ********
-			 * @type {Object}
-			 */
+       *Key-Value map to send to the server.
+       *
+       *ko-kr
+       *
+       *서버로 보낼 Key-Value map Object
+       ********
+       * @type {Object}
+       */
       headers: {
         type: Object,
         value: {}
       },
+
       /**
        *en-us
        *
-			 *Max time for the upload process, if exceeded XHR will be aborted.
-			 *
-			 *ko-kr
-			 *
-			 *오랜 시간동안 업로드 하지 않으면 timeout 발생
-			 ********
-			 * @type {Number}
-			 */
+       *Max time for the upload process, if exceeded XHR will be aborted.
+       *
+       *ko-kr
+       *
+       *오랜 시간동안 업로드 하지 않으면 timeout 발생
+       ********
+       * @type {Number}
+       */
       timeout: {
         type: Number,
         value: 0
@@ -287,17 +295,18 @@ Custom property | Description | Default
         value: false,
         observer: '_dragoverChanged'
       },
+
       /**
        *en-us
        *
-			 *Specifies if the cancel-all button is visible.
-			 *
-			 *ko-kr
-			 *
-			 *cancelall 기능
-			 *******
-			 * @type {Boolean}
-			 */
+       *Specifies if the cancel-all button is visible.
+       *
+       *ko-kr
+       *
+       *cancelall 기능
+       *******
+       * @type {Boolean}
+       */
       showCancelAll: {
         type: Boolean,
         value: false
@@ -310,51 +319,55 @@ Custom property | Description | Default
           return [];
         }
       },
+
       /**
        *en-us
        *
-			 *Specifies whether the file selection popup is configured to select
-			 *
-			 *ko-kr
-			 *
-			 *여러 파일을 동시에 업로드여부
-			 ********
-			 * @type {Boolean}
-			 */
+       *Specifies whether the file selection popup is configured to select
+       *
+       *ko-kr
+       *
+       *여러 파일을 동시에 업로드여부
+       ********
+       * @type {Boolean}
+       */
        nomultiple: {
          type: Boolean,
          value: false
        },
+
        /**
         *en-us
         *
- 			 *Limit of files to upload, by default it is unlimited.
- 			 *
- 			 *ko-kr
- 			 *
- 			 *업로드 파일 최대개수 설정,default값은 제한없음.
- 			 *******
- 			 * @type {Number}
- 			 */
+       *Limit of files to upload, by default it is unlimited.
+       *
+       *ko-kr
+       *
+       *업로드 파일 최대개수 설정,default값은 제한없음.
+       *******
+       * @type {Number}
+       */
        maxFiles: {
          type: Number,
          value: Infinity
        },
+
        /**
        *en-us
        *
- 			 *Specifies the types of files that the server accepts.
- 			 *
- 			 *ko-kr
- 			 *
- 			 *파일type 설정
- 			 ********
- 			 * @type {String}
- 			 */
+       *Specifies the types of files that the server accepts.
+       *
+       *ko-kr
+       *
+       *파일type 설정
+       ********
+       * @type {String}
+       */
       accept: {
         type: String,
         value: ''
       },
+
       /**
        *en-us
        *
@@ -370,6 +383,7 @@ Custom property | Description | Default
         type: Number,
         value: Infinity
       },
+
       /**
        *en-us
        *
@@ -840,8 +854,8 @@ Custom property | Description | Default
    * ********
    * @event file-reject
    * @param {Object} detail
-   *  @param {Object} detail.file the file added
-   *  @param {Object} detail.error the cause
+   * @param {Object} detail.file the file added
+   * @param {Object} detail.error the cause
    */
 
   /**
@@ -855,7 +869,7 @@ Custom property | Description | Default
    * *******
    * @event file-add
    * @param {Object} detail
-   *  @param {Object} detail.file the file added
+   * @param {Object} detail.file the file added
    */
 
   /**
@@ -871,7 +885,7 @@ Custom property | Description | Default
    * ******
    * @event file-remove
    * @param {Object} detail
-   *  @param {Object} detail.file the file to be removed
+   * @param {Object} detail.file the file to be removed
    */
 
   /**
@@ -886,9 +900,9 @@ Custom property | Description | Default
    * ******
    * @event upload-before
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded
-   *   @param {Object} detail.file.uploadTarget the upload request URL, initialized with the value of vaadin-upload `target` property
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.file.uploadTarget the upload request URL, initialized with the value of vaadin-upload `target` property
    */
 
   /**
@@ -905,8 +919,8 @@ Custom property | Description | Default
    * *******
    * @event upload-request
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded
    */
 
   /**
@@ -920,8 +934,8 @@ Custom property | Description | Default
    * *******
    * @event upload-start
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded
    */
 
   /**
@@ -935,8 +949,8 @@ Custom property | Description | Default
    * ******
    * @event upload-progress
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded with loaded info
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded with loaded info
    */
 
   /**
@@ -957,8 +971,8 @@ Custom property | Description | Default
    ********
    * @event upload-response
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded
    */
 
   /**
@@ -972,8 +986,8 @@ Custom property | Description | Default
    *******
    * @event upload-success
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded with loaded info
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded with loaded info
    */
 
   /**
@@ -987,8 +1001,8 @@ Custom property | Description | Default
    ********
    * @event upload-error
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded
    */
 
   /**
@@ -1003,8 +1017,8 @@ Custom property | Description | Default
    * *******
    * @event upload-retry
    * @param {Object} detail
-   *  @param {Object} detail.xhr the previous upload xhr
-   *  @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.xhr the previous upload xhr
+   * @param {Object} detail.file the file being uploaded
    */
 
   /**
@@ -1015,12 +1029,12 @@ Custom property | Description | Default
    *
    * ko-kr
    *
-   *업로드중
+   *업로드 중지 
    ********
    * @event upload-abort
    * @param {Object} detail
-   *  @param {Object} detail.xhr the xhr
-   *  @param {Object} detail.file the file being uploaded
+   * @param {Object} detail.xhr the xhr
+   * @param {Object} detail.file the file being uploaded
    */
 
 </script>
