@@ -687,9 +687,9 @@ Custom property | Description | Default
           }
           if (xhr.status === 0) {
             file.error = this.i18n.uploading.error.serverUnavailable;
-          } else if (xhr.status > 500) {
+          } else if (xhr.status >= 500) {
             file.error = this.i18n.uploading.error.unexpectedServerError;
-          } else if (xhr.status > 400) {
+          } else if (xhr.status >= 400) {
             file.error = this.i18n.uploading.error.forbidden;
           }
 
@@ -699,6 +699,7 @@ Custom property | Description | Default
         }
       }.bind(this);
 
+
       var formData = new FormData();
       formData.append('file', file, file.name);
 
@@ -707,6 +708,19 @@ Custom property | Description | Default
       if (evt.defaultPrevented) {
         return;
       }
+
+      // Called after all of the above.
+      xhr.addEventListener('loadend', function () {
+        this._updateStatus();
+        this._setResponse(this.parseResponse());
+
+        if (!this.succeeded) {
+          this.rejectCompletes(new Error('The request failed with status code: ' + this.xhr.status));
+          return;
+        }
+
+        this.resolveCompletes(this);
+      }.bind(this));
 
       xhr.open(this.method, file.uploadTarget, true);
       this._configureXhr(xhr);
@@ -723,6 +737,7 @@ Custom property | Description | Default
       file.abort = file.error = undefined;
       this.fire('upload-start', {file: file, xhr: xhr, formData:formData});
       this._notifyFileChanges(file);
+
       xhr.send(formData);
     },
 
