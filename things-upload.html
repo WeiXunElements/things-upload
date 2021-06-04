@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright © HatioLab Inc. All rights reserved.
+Copyright © 2015-2021 Shenzhen Weixun All rights reserved.
 -->
 <!--
 ## things-upload
@@ -63,19 +63,19 @@ Custom property | Description | Default
 @demo demo/advanced.html Advanced Usage
 -->
 
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../paper-styles/typography.html">
-<link rel="import" href="../paper-ripple/paper-ripple.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="things-upload-template.html">
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html" />
+<link rel="import" href="../iron-icons/iron-icons.html" />
+<link rel="import" href="../paper-styles/typography.html" />
+<link rel="import" href="../paper-ripple/paper-ripple.html" />
+<link rel="import" href="../paper-button/paper-button.html" />
+<link rel="import" href="things-upload-template.html" />
 
 <dom-module id="things-upload">
   <template>
     <style>
       :host {
-        @apply(--layout-vertical);
+        @apply (--layout-vertical);
         display: block;
         position: relative;
         text-align: left;
@@ -84,14 +84,14 @@ Custom property | Description | Default
 
       :host(:not([nodrop])) {
         border: 1px dashed;
-        border-color: var(--divider-color,  #666);
+        border-color: var(--divider-color, #666);
         border-radius: 3px;
         overflow: hidden;
         padding: 16px;
       }
 
       :host([dragover-valid]) {
-        border-color: var(--primary-color, #00B4F0);
+        border-color: var(--primary-color, #00b4f0);
       }
 
       /*
@@ -99,8 +99,8 @@ Custom property | Description | Default
         over it. Helps to reduce the amount of events fired.
       */
       :host::before {
-        @apply(--layout-fit);
-        content: '';
+        @apply (--layout-fit);
+        content: "";
         display: none;
         z-index: 10;
       }
@@ -109,65 +109,65 @@ Custom property | Description | Default
       }
 
       #dragRipple {
-        color: var(--light-primary-color, #7CD8F7);
-        @apply(--things-upload-drag-ripple);
+        color: var(--light-primary-color, #7cd8f7);
+        @apply (--things-upload-drag-ripple);
       }
 
       #dropLabel {
-        @apply(--layout-flex);
-        @apply(--paper-font-body2);
+        @apply (--layout-flex);
+        @apply (--paper-font-body2);
         position: relative;
-        padding: .43em .57em;
-        margin: 0 .29em;
+        padding: 0.43em 0.57em;
+        margin: 0 0.29em;
         color: var(--disabled-text-color, #b3b3b3);
-        @apply(--things-upload-drop-label);
-        text-align:center
+        @apply (--things-upload-drop-label);
+        text-align: center;
       }
 
       :host([dragover-valid]) #dropLabel,
       :host([dragover-valid]) ::content .drop-label {
-        color: var(--primary-color, #00B4F0);
-        @apply(--things-upload-drop-label-dragover);
+        color: var(--primary-color, #00b4f0);
+        @apply (--things-upload-drop-label-dragover);
       }
 
       #dropLabel ::content iron-icon {
-        margin-right: .25em;
-        @apply(--things-upload-drop-label-icon);
+        margin-right: 0.25em;
+        @apply (--things-upload-drop-label-icon);
       }
 
       #fileList {
         position: relative;
-        @apply(--things-upload-file-list);
+        @apply (--things-upload-file-list);
       }
 
       #buttons {
-        @apply(--layout-horizontal);
-        float:right;
-        position:relative;
-        margin-top:-35px;
-        @apply(--things-upload-buttons);
+        @apply (--layout-horizontal);
+        float: right;
+        position: relative;
+        margin-top: -35px;
+        @apply (--things-upload-buttons);
       }
 
       #buttonsPrimary {
-        @apply(--layout-horizontal);
-        @apply(--layout-flex);
-        @apply(--layout-start);
-        margin-left: -.29em;
-        @apply(--things-upload-buttons-primary);
+        @apply (--layout-horizontal);
+        @apply (--layout-flex);
+        @apply (--layout-start);
+        margin-left: -0.29em;
+        @apply (--things-upload-buttons-primary);
       }
 
       #addFiles {
-        @apply(--paper-font-button);
-        padding: .43em .57em;
-        background: var(--primary-color, #00B4F0);
-        color: var(--primary-font-color, #FFFFFF);
-        @apply(--things-upload-button-add);
+        @apply (--paper-font-button);
+        padding: 0.43em 0.57em;
+        background: var(--primary-color, #00b4f0);
+        color: var(--primary-font-color, #ffffff);
+        @apply (--things-upload-button-add);
       }
 
       #addFiles[disabled] {
         background: var(--divider-color, #e0e0e0);
         color: var(--disabled-text-color, gray);
-        @apply(--things-upload-button-add-disabled);
+        @apply (--things-upload-button-add-disabled);
       }
     </style>
 
@@ -181,30 +181,32 @@ Custom property | Description | Default
     </div>
 
     <div id="buttons">
-      <paper-button id="addFiles" on-tap="_onAddFilesClick" disabled="[[_maxFilesAdded(maxFiles, files.length)]]">[[_i18nPlural(maxFiles, i18n.addFiles)]]</paper-button>
-      <paper-button id="cancelAll" on-tap="_onCancelAllClick" hidden$="[[!showCancelAll]]">[[i18n.cancelAll]]</paper-button>
+      <paper-button id="addFiles" on-tap="_onAddFilesClick" disabled="[[_maxFilesAdded(maxFiles, files.length)]]"
+        >[[_i18nPlural(maxFiles, i18n.addFiles)]]</paper-button
+      >
+      <paper-button id="cancelAll" on-tap="_onCancelAllClick" hidden$="[[!showCancelAll]]"
+        >[[i18n.cancelAll]]</paper-button
+      >
     </div>
-    
+
     <template id="defaultFileTemplate">
       <things-upload-template file="[[file]]"></things-upload-template>
     </template>
-    
+
     <div id="fileList" on-file-remove="_onFileRemove">
       <template id="fileListRepeater" is="dom-repeat" items="[[files]]" as="file"></template>
     </div>
-    
+
     <content></content>
-    
-    <input type="file" id="fileInput" on-change="_onFileInputChange" hidden accept="{{accept}}">
+
+    <input type="file" id="fileInput" on-change="_onFileInputChange" hidden accept="{{accept}}" />
     <paper-ripple id="dragRipple" noink></paper-ripple>
   </template>
 </dom-module>
 
 <script>
-
   Polymer({
-
-    is: 'things-upload',
+    is: "things-upload",
 
     properties: {
       /**
@@ -221,9 +223,9 @@ Custom property | Description | Default
       nodrop: {
         type: Boolean,
         reflectToAttribute: true,
-        value: function() {
+        value: function () {
           try {
-            return !!document.createEvent('TouchEvent');
+            return !!document.createEvent("TouchEvent");
           } catch (e) {
             return false;
           }
@@ -243,7 +245,7 @@ Custom property | Description | Default
        */
       target: {
         type: String,
-        value: ''
+        value: "",
       },
 
       /**
@@ -259,7 +261,7 @@ Custom property | Description | Default
        */
       method: {
         type: String,
-        value: 'POST'
+        value: "POST",
       },
 
       /**
@@ -275,7 +277,7 @@ Custom property | Description | Default
        */
       headers: {
         type: Object,
-        value: {}
+        value: {},
       },
 
       /**
@@ -291,13 +293,13 @@ Custom property | Description | Default
        */
       timeout: {
         type: Number,
-        value: 0
+        value: 0,
       },
 
       _dragover: {
         type: Boolean,
         value: false,
-        observer: '_dragoverChanged'
+        observer: "_dragoverChanged",
       },
 
       /**
@@ -313,15 +315,15 @@ Custom property | Description | Default
        */
       showCancelAll: {
         type: Boolean,
-        value: false
+        value: false,
       },
 
       // TODO: make this private in a separate PR, we dont want users modifying the array.
       files: {
         type: Array,
-        value: function() {
+        value: function () {
           return [];
-        }
+        },
       },
 
       /**
@@ -335,14 +337,14 @@ Custom property | Description | Default
        ********
        * @type {Boolean}
        */
-       nomultiple: {
-         type: Boolean,
-         value: false
-       },
+      nomultiple: {
+        type: Boolean,
+        value: false,
+      },
 
-       /**
-        *en-us
-        *
+      /**
+       *en-us
+       *
        *Limit of files to upload, by default it is unlimited.
        *
        *ko-kr
@@ -351,12 +353,12 @@ Custom property | Description | Default
        *******
        * @type {Number}
        */
-       maxFiles: {
-         type: Number,
-         value: Infinity
-       },
+      maxFiles: {
+        type: Number,
+        value: Infinity,
+      },
 
-       /**
+      /**
        *en-us
        *
        *Specifies the types of files that the server accepts.
@@ -369,7 +371,7 @@ Custom property | Description | Default
        */
       accept: {
         type: String,
-        value: ''
+        value: "",
       },
 
       /**
@@ -385,7 +387,7 @@ Custom property | Description | Default
        */
       maxFileSize: {
         type: Number,
-        value: Infinity
+        value: Infinity,
       },
 
       /**
@@ -402,66 +404,66 @@ Custom property | Description | Default
       _dragoverValid: {
         type: Boolean,
         value: false,
-        observer: '_dragoverValidChanged'
+        observer: "_dragoverValidChanged",
       },
 
       i18n: {
         type: Object,
-        value: function() {
+        value: function () {
           return {
             dropFiles: {
-              one: Things.DataGlobal.t('text.drop_file_here'),
-              many: Things.DataGlobal.t('text.drop_files_here')
+              one: Things.DataGlobal.t("text.drop_file_here"),
+              many: Things.DataGlobal.t("text.drop_files_here"),
             },
             addFiles: {
-              one: Things.DataGlobal.t('text.select_file'),
-              many: Things.DataGlobal.t('text.add_files')
+              one: Things.DataGlobal.t("text.select_file"),
+              many: Things.DataGlobal.t("text.add_files"),
             },
-            cancel: Things.DataGlobal.t('text.cancel'),
-            cancelAll: Things.DataGlobal.t('text.cancel_all'),
+            cancel: Things.DataGlobal.t("text.cancel"),
+            cancelAll: Things.DataGlobal.t("text.cancel_all"),
             error: {
-              tooManyFiles: Things.DataGlobal.t('text.too_many_files'),
-              fileIsTooBig: Things.DataGlobal.t('text.file_is_too_big'),
-              incorrectFileType: Things.DataGlobal.t('text.incorrect_file_type')
+              tooManyFiles: Things.DataGlobal.t("text.too_many_files"),
+              fileIsTooBig: Things.DataGlobal.t("text.file_is_too_big"),
+              incorrectFileType: Things.DataGlobal.t("text.incorrect_file_type"),
             },
             uploading: {
               status: {
-                connecting: Things.DataGlobal.t('text.connecting'),
-                stalled: Things.DataGlobal.t('text.stalled'),
-                processing: Things.DataGlobal.t('text.processing_file')
+                connecting: Things.DataGlobal.t("text.connecting"),
+                stalled: Things.DataGlobal.t("text.stalled"),
+                processing: Things.DataGlobal.t("text.processing_file"),
               },
               remainingTime: {
-                prefix: Things.DataGlobal.t('text.remaining_time'),
-                unknown: Things.DataGlobal.t('text.unknown_remaining_time')
+                prefix: Things.DataGlobal.t("text.remaining_time"),
+                unknown: Things.DataGlobal.t("text.unknown_remaining_time"),
               },
               error: {
-                serverUnavailable: Things.DataGlobal.t('text.server_unavailable'),
-                unexpectedServerError: Things.DataGlobal.t('text.unexpected_server_error'),
-                forbidden: Things.DataGlobal.t('text.forbidden')
-              }
+                serverUnavailable: Things.DataGlobal.t("text.server_unavailable"),
+                unexpectedServerError: Things.DataGlobal.t("text.unexpected_server_error"),
+                forbidden: Things.DataGlobal.t("text.forbidden"),
+              },
             },
             units: {
-              size: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-            }
+              size: ["B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+            },
           };
-        }
-      }
+        },
+      },
     },
 
     listeners: {
-      dragover: '_onDragover',
-      dragleave: '_onDragleave',
-      drop: '_onDrop',
-      'file-retry': '_onFileRetry',
-      'file-abort': '_onFileAbort'
+      dragover: "_onDragover",
+      dragleave: "_onDragleave",
+      drop: "_onDrop",
+      "file-retry": "_onFileRetry",
+      "file-abort": "_onFileAbort",
     },
 
-    attached: function() {
+    attached: function () {
       this._templatizeFileList();
     },
 
-    _formatSize: function(bytes) {
-      if (typeof this.i18n.formatSize === 'function') {
+    _formatSize: function (bytes) {
+      if (typeof this.i18n.formatSize === "function") {
         return this.i18n.formatSize(bytes);
       }
 
@@ -470,10 +472,10 @@ Custom property | Description | Default
       var unit = ~~(Math.log(bytes) / Math.log(base));
       var dec = Math.max(0, Math.min(3, unit - 1));
       var size = parseFloat((bytes / Math.pow(base, unit)).toFixed(dec));
-      return size + ' ' + this.i18n.units.size[unit];
+      return size + " " + this.i18n.units.size[unit];
     },
 
-    _splitTimeByUnits: function(time) {
+    _splitTimeByUnits: function (time) {
       var unitSizes = [60, 60, 24, Infinity];
       var timeValues = [0];
 
@@ -485,8 +487,8 @@ Custom property | Description | Default
       return timeValues;
     },
 
-    _formatTime: function(seconds, split) {
-      if (typeof this.i18n.formatTime === 'function') {
+    _formatTime: function (seconds, split) {
+      if (typeof this.i18n.formatTime === "function") {
         return this.i18n.formatTime(seconds, split);
       }
 
@@ -496,35 +498,39 @@ Custom property | Description | Default
       }
 
       return split
-          .reverse()
-          .map(function(number) {
-            return (number < 10 ? '0' : '') + number;
-          })
-          .join(':');
+        .reverse()
+        .map(function (number) {
+          return (number < 10 ? "0" : "") + number;
+        })
+        .join(":");
     },
 
-    _formatFileProgress: function(file) {
-      return file.totalStr + ': ' +
-          file.progress + '% (' +
-          (file.loaded > 0 ?
-              this.i18n.uploading.remainingTime.prefix + file.remainingStr :
-              this.i18n.uploading.remainingTime.unknown) +
-          ')';
+    _formatFileProgress: function (file) {
+      return (
+        file.totalStr +
+        ": " +
+        file.progress +
+        "% (" +
+        (file.loaded > 0
+          ? this.i18n.uploading.remainingTime.prefix + file.remainingStr
+          : this.i18n.uploading.remainingTime.unknown) +
+        ")"
+      );
     },
 
-    _maxFilesAdded: function() {
+    _maxFilesAdded: function () {
       return this.maxFiles >= 0 && this.files.length >= this.maxFiles;
     },
 
-    _dragRippleAction: function(action, event) {
+    _dragRippleAction: function (action, event) {
       var rippleActionEvent = {
         detail: {
           x: event.clientX,
-          y: event.clientY
-        }
+          y: event.clientY,
+        },
       };
 
-      if (action == 'down') {
+      if (action == "down") {
         this.$.dragRipple.downAction(rippleActionEvent);
 
         // paper-ripple currently has hard Ripple.MAX_RADIUS limit of 300, and
@@ -543,9 +549,9 @@ Custom property | Description | Default
         // - https://github.com/PolymerElements/paper-ripple/pull/63
         //
         var lastRipple = this.$.dragRipple.ripples[this.$.dragRipple.ripples.length - 1];
-        if (!lastRipple.hasOwnProperty('radius')) {
-          Object.defineProperty(lastRipple, 'radius', {
-            get: function() {
+        if (!lastRipple.hasOwnProperty("radius")) {
+          Object.defineProperty(lastRipple, "radius", {
+            get: function () {
               var width2 = this.containerMetrics.width * this.containerMetrics.width;
               var height2 = this.containerMetrics.height * this.containerMetrics.height;
               var waveRadius = Math.sqrt(width2 + height2) * 1.1 + 5;
@@ -554,7 +560,7 @@ Custom property | Description | Default
               var timeNow = this.mouseInteractionSeconds / duration;
               var size = waveRadius * (1 - Math.pow(80, -timeNow));
               return Math.abs(size);
-            }
+            },
           });
         }
       } else {
@@ -562,47 +568,47 @@ Custom property | Description | Default
       }
     },
 
-    _onDragover: function(event) {
+    _onDragover: function (event) {
       event.preventDefault();
       if (!this._dragover) {
         this._dragoverValid = !this._maxFilesAdded();
       }
       if (this._dragoverValid && !this._dragover && !this.nodrop) {
-        this._dragRippleAction('down', event);
+        this._dragRippleAction("down", event);
       }
-      event.dataTransfer.dropEffect = !this._dragoverValid || this.nodrop ? 'none' : 'copy';
+      event.dataTransfer.dropEffect = !this._dragoverValid || this.nodrop ? "none" : "copy";
       this._dragover = true;
     },
 
-    _onDragleave: function(event) {
+    _onDragleave: function (event) {
       // Dragleave sometimes fired on children, skipping them. Fixes flickeing
       // when quickly dragging over.
       if (Polymer.dom(event).rootTarget === this) {
         event.preventDefault();
         if (this._dragover && !this.nodrop) {
-          this._dragRippleAction('up', event);
+          this._dragRippleAction("up", event);
           this._dragover = this._dragoverValid = false;
         }
       }
     },
 
-    _onDrop: function(event) {
+    _onDrop: function (event) {
       if (!this.nodrop) {
         event.preventDefault();
-        this._dragRippleAction('up', event);
+        this._dragRippleAction("up", event);
         this._dragover = this._dragoverValid = false;
-        this._dragRippleAction('upAction', event);
+        this._dragRippleAction("upAction", event);
         this._addFiles(event.dataTransfer.files);
       }
     },
 
     // Override for tests
-    _createXhr: function(file) {
+    _createXhr: function (file) {
       return new XMLHttpRequest();
     },
 
-    _configureXhr: function(xhr) {
-      if (typeof this.headers == 'string') {
+    _configureXhr: function (xhr) {
+      if (typeof this.headers == "string") {
         try {
           this.headers = JSON.parse(this.headers);
         } catch (e) {
@@ -617,7 +623,7 @@ Custom property | Description | Default
       }
     },
 
-    _setStatus: function(file, total, loaded, elapsed, progress) {
+    _setStatus: function (file, total, loaded, elapsed, progress) {
       file.elapsed = elapsed;
       file.elapsedStr = this._formatTime(file.elapsed, this._splitTimeByUnits(file.elapsed));
       file.remaining = Math.ceil(elapsed * (total / loaded - 1));
@@ -628,36 +634,41 @@ Custom property | Description | Default
       file.status = this._formatFileProgress(file);
     },
 
-    _uploadFile: function(file) {
+    _uploadFile: function (file) {
       if (file.uploading) {
         return;
       }
 
       var ini = Date.now();
-      var xhr = file.xhr = this._createXhr(file);
+      var xhr = (file.xhr = this._createXhr(file));
 
       var stalledId, last;
       // onprogress is called always after onreadystatechange
-      xhr.upload.onprogress = function(e) {
+      xhr.upload.onprogress = function (e) {
         clearTimeout(stalledId);
 
         last = Date.now();
         var elapsed = (last - ini) / 1000;
-        var loaded = e.loaded, total = e.total, progress = ~~(loaded / total * 100);
+        var loaded = e.loaded,
+          total = e.total,
+          progress = ~~((loaded / total) * 100);
 
         file.loaded = loaded;
         file.progress = progress;
-        file.indeterminate = loaded <= 0 || loaded >= total, true;
+        (file.indeterminate = loaded <= 0 || loaded >= total), true;
         if (file.error) {
           file.indeterminate = file.status = undefined;
         } else if (file.abort) {
-          file.status = 'Upload cancelled.';
+          file.status = "Upload cancelled.";
         } else if (progress < 100) {
           this._setStatus(file, total, loaded, elapsed, progress);
-          stalledId = setTimeout(function() {
-            file.status = this.i18n.uploading.status.stalled;
-            this._notifyFileChanges(file);
-          }.bind(this), 2000);
+          stalledId = setTimeout(
+            function () {
+              file.status = this.i18n.uploading.status.stalled;
+              this._notifyFileChanges(file);
+            }.bind(this),
+            2000
+          );
         } else {
           file.loadedStr = file.totalStr;
           file.status = this.i18n.uploading.status.processing;
@@ -665,15 +676,15 @@ Custom property | Description | Default
         }
 
         this._notifyFileChanges(file);
-        this.fire('upload-progress', {file: file, xhr: xhr});
+        this.fire("upload-progress", { file: file, xhr: xhr });
       }.bind(this);
 
       // More reliable than xhr.onload
-      xhr.onreadystatechange = function(e) {
+      xhr.onreadystatechange = function (e) {
         if (xhr.readyState == 4) {
           clearTimeout(stalledId);
           file.indeterminate = file.uploading = false;
-          file.status = '';
+          file.status = "";
           if (file.abort) {
             file.error = file.complete = file.progress = file.status = false;
             this._notifyFileChanges(file);
@@ -681,7 +692,7 @@ Custom property | Description | Default
           }
           // Custom listener can modify the default behavior either
           // preventing default, changing the xhr, or setting the file error
-          var evt = this.fire('upload-response', {file: file, xhr: xhr}, {cancelable: true});
+          var evt = this.fire("upload-response", { file: file, xhr: xhr }, { cancelable: true });
           if (evt.defaultPrevented) {
             return;
           }
@@ -694,40 +705,42 @@ Custom property | Description | Default
           }
 
           file.complete = !file.error;
-          this.fire('upload-' + (file.error ? 'error' : 'success'), {file: file, xhr: xhr});
+          this.fire("upload-" + (file.error ? "error" : "success"), { file: file, xhr: xhr });
           this._notifyFileChanges(file);
         }
       }.bind(this);
 
-
       var formData = new FormData();
-      formData.append('file', file, file.name);
+      formData.append("file", file, file.name);
 
-      file.uploadTarget = this.target || '';
-      var evt = this.fire('upload-before', {file: file, xhr: xhr, formData: formData}, {cancelable: true});
+      file.uploadTarget = this.target || "";
+      var evt = this.fire("upload-before", { file: file, xhr: xhr, formData: formData }, { cancelable: true });
       if (evt.defaultPrevented) {
         return;
       }
 
       // Called after all of the above.
-      xhr.addEventListener('loadend', function () {
-        this._updateStatus();
-        this._setResponse(this.parseResponse());
+      xhr.addEventListener(
+        "loadend",
+        function () {
+          this._updateStatus();
+          this._setResponse(this.parseResponse());
 
-        if (!this.succeeded) {
-          this.rejectCompletes(new Error('The request failed with status code: ' + this.xhr.status));
-          return;
-        }
+          if (!this.succeeded) {
+            this.rejectCompletes(new Error("The request failed with status code: " + this.xhr.status));
+            return;
+          }
 
-        this.resolveCompletes(this);
-      }.bind(this));
+          this.resolveCompletes(this);
+        }.bind(this)
+      );
 
       xhr.open(this.method, file.uploadTarget, true);
       this._configureXhr(xhr);
 
       // Custom listener could modify the xhr just before sending it
       // preventing default
-      evt = this.fire('upload-request', {file: file, xhr: xhr, formData:formData}, {cancelable: true});
+      evt = this.fire("upload-request", { file: file, xhr: xhr, formData: formData }, { cancelable: true });
       if (evt.defaultPrevented) {
         return;
       }
@@ -735,31 +748,31 @@ Custom property | Description | Default
       file.status = this.i18n.uploading.status.connecting;
       file.uploading = file.indeterminate = true;
       file.abort = file.error = undefined;
-      this.fire('upload-start', {file: file, xhr: xhr, formData:formData});
+      this.fire("upload-start", { file: file, xhr: xhr, formData: formData });
       this._notifyFileChanges(file);
 
       xhr.send(formData);
     },
 
-    _retryFileUpload: function(file) {
-      var evt = this.fire('upload-retry', {file: file, xhr: file.xhr}, {cancelable: true});
+    _retryFileUpload: function (file) {
+      var evt = this.fire("upload-retry", { file: file, xhr: file.xhr }, { cancelable: true });
       if (!evt.defaultPrevented) {
         this.async(this._uploadFile.bind(this, file));
       }
     },
 
-    _abortFileUpload: function(file) {
-       var evt = this.fire('upload-abort', {file: file, xhr: file.xhr}, {cancelable: true});
-       if (!evt.defaultPrevented) {
-         file.abort = true;
-         if (file.xhr) {
-           file.xhr.abort();
-         }
-       }
-     },
+    _abortFileUpload: function (file) {
+      var evt = this.fire("upload-abort", { file: file, xhr: file.xhr }, { cancelable: true });
+      if (!evt.defaultPrevented) {
+        file.abort = true;
+        if (file.xhr) {
+          file.xhr.abort();
+        }
+      }
+    },
 
-    _notifyFileChanges: function(file) {
-      var p = 'files.' + this.files.indexOf(file) + '.';
+    _notifyFileChanges: function (file) {
+      var p = "files." + this.files.indexOf(file) + ".";
       for (var i in file) {
         if (file.hasOwnProperty(i)) {
           this.notifyPath(p + i, file[i]);
@@ -767,7 +780,7 @@ Custom property | Description | Default
       }
     },
 
-    _addFiles: function(files) {
+    _addFiles: function (files) {
       Array.prototype.forEach.call(files, this._addFile.bind(this));
     },
 
@@ -776,25 +789,25 @@ Custom property | Description | Default
      *
      * @param {File} file File being added
      */
-    _addFile: function(file) {
+    _addFile: function (file) {
       if (this._maxFilesAdded()) {
-        this.fire('file-reject', {file: file, error: this.i18n.error.tooManyFiles});
+        this.fire("file-reject", { file: file, error: this.i18n.error.tooManyFiles });
         return;
       }
       if (this.maxFileSize >= 0 && file.size > this.maxFileSize) {
-        this.fire('file-reject', {file: file, error: this.i18n.error.fileIsTooBig});
+        this.fire("file-reject", { file: file, error: this.i18n.error.fileIsTooBig });
         return;
       }
       var mimeType = file.type ? file.type.match(/^[^\/]*\//)[0] : null;
       var fileType = file.name.match(/\.[^\.]*$|$/)[0];
-      var re = new RegExp('^(' + this.accept.replace(/[, ]+/g, '|').replace('/*', '/.*') + ')$');
+      var re = new RegExp("^(" + this.accept.replace(/[, ]+/g, "|").replace("/*", "/.*") + ")$");
       if (this.accept && !(re.test(mimeType) || re.test(fileType))) {
-        this.fire('file-reject', {file: file, error: this.i18n.error.incorrectFileType});
+        this.fire("file-reject", { file: file, error: this.i18n.error.incorrectFileType });
         return;
       }
       file.loaded = 0;
-      this.unshift('files', file);
-      this.fire('file-add', {file: file});
+      this.unshift("files", file);
+      this.fire("file-add", { file: file });
       this._uploadFile(file);
     },
 
@@ -802,63 +815,62 @@ Custom property | Description | Default
      * Remove file from upload list. Called internally if file upload was canceled.
      * @param {File} file File to remove
      */
-    _removeFile: function(file) {
-      var evt = this.fire('file-remove', {file: file}, {cancelable: true});
+    _removeFile: function (file) {
+      var evt = this.fire("file-remove", { file: file }, { cancelable: true });
       if (!evt.defaultPrevented) {
-        this.splice('files', this.files.indexOf(file), 1);
+        this.splice("files", this.files.indexOf(file), 1);
       }
     },
 
-    _onAddFilesClick: function(event) {
+    _onAddFilesClick: function (event) {
       if (document.createEvent) {
-        this.$.fileInput.multiple = !this.nomultiple && this.maxFiles != 1;
-        this.$.fileInput.value = '';
+        this.$.fileInput.multiple = !this.nomultiple && this.maxFiles != 1;
+        this.$.fileInput.value = "";
         this.$.fileInput.click();
       }
     },
 
-    _onFileInputChange: function(event) {
+    _onFileInputChange: function (event) {
       this._addFiles(event.target.files);
     },
 
-    _templatizeFileList: function() {
-      var template = Polymer.dom(this).querySelector('.file') || this.$.defaultFileTemplate;
+    _templatizeFileList: function () {
+      var template = Polymer.dom(this).querySelector(".file") || this.$.defaultFileTemplate;
       this.$.fileListRepeater.templatize(template);
       Polymer.Bind.prepareModel(this.$.fileListRepeater);
       Polymer.Base.prepareModelNotifyPath(this.$.fileListRepeater);
     },
 
-    _onFileRetry: function(event) {
+    _onFileRetry: function (event) {
       this._retryFileUpload(event.detail.file);
     },
 
-    _onFileAbort: function(event) {
+    _onFileAbort: function (event) {
       this._abortFileUpload(event.detail.file);
     },
 
-    _onFileRemove: function(event) {
+    _onFileRemove: function (event) {
       event.stopPropagation();
       this._removeFile(event.detail.file);
     },
 
-    _onCancelAllClick: function(event) {
+    _onCancelAllClick: function (event) {
       for (var i = this.files.length; i > 0; --i) {
         this._abortFileUpload(this.files[i - 1]);
       }
     },
 
-    _dragoverChanged: function(dragover) {
-      this.toggleAttribute('dragover', dragover);
+    _dragoverChanged: function (dragover) {
+      this.toggleAttribute("dragover", dragover);
     },
 
-    _dragoverValidChanged: function(dragoverValid) {
-      this.toggleAttribute('dragover-valid', dragoverValid);
+    _dragoverValidChanged: function (dragoverValid) {
+      this.toggleAttribute("dragover-valid", dragoverValid);
     },
 
-    _i18nPlural: function(value, plural) {
+    _i18nPlural: function (value, plural) {
       return value == 1 ? plural.one : plural.many;
-    }
-
+    },
   });
 
   /**
@@ -1048,12 +1060,11 @@ Custom property | Description | Default
    *
    * ko-kr
    *
-   *업로드 중지 
+   *업로드 중지
    ********
    * @event upload-abort
    * @param {Object} detail
    * @param {Object} detail.xhr the xhr
    * @param {Object} detail.file the file being uploaded
    */
-
 </script>

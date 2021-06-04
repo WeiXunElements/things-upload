@@ -1,19 +1,19 @@
 <!--
 @license
-Copyright © HatioLab Inc. All rights reserved.
+Copyright © 2015-2021 Shenzhen Weixun All rights reserved.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html" />
 
-<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
-<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html" />
+<link rel="import" href="../paper-styles/default-theme.html" />
 
-<link rel="import" href="../things-global-behavior/things-global-behavior.html">
-<link rel="import" href="../things-input-field/things-input-field.html">
-<link rel="import" href="../things-msg-box-behavior/things-msg-box-behavior.html">
-<link rel="import" href="../things-resource-combo/things-storage-combo.html">
-<link rel="import" href="../things-spinner/things-spinner-behavior.html">
+<link rel="import" href="../things-global-behavior/things-global-behavior.html" />
+<link rel="import" href="../things-input-field/things-input-field.html" />
+<link rel="import" href="../things-msg-box-behavior/things-msg-box-behavior.html" />
+<link rel="import" href="../things-resource-combo/things-storage-combo.html" />
+<link rel="import" href="../things-spinner/things-spinner-behavior.html" />
 
-<link rel="import" href="things-upload.html">
+<link rel="import" href="things-upload.html" />
 
 <!--
 ## things-file-upload
@@ -75,549 +75,535 @@ Copyright © HatioLab Inc. All rights reserved.
 -->
 
 <dom-module id="things-file-upload">
-	<template>
-		<style is="custom-style" include="demo-pages-shared-styles">
-			:root {
-				--primary-color: #00B4F0;
-				--light-primary-color: #7CD8F7;
-				--dark-primary-color: #0078A0;
-				--error-color: #E61E6E;
-			}
+  <template>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      :root {
+        --primary-color: #00b4f0;
+        --light-primary-color: #7cd8f7;
+        --dark-primary-color: #0078a0;
+        --error-color: #e61e6e;
+      }
 
-			nav {
-				display: block;
-			}
+      nav {
+        display: block;
+      }
 
-			nav.vertical-section {
-				margin-left: 0;
-				margin-right: 0;
-				padding-top: 8px;
-				padding-bottom: 0;
-			}
+      nav.vertical-section {
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 8px;
+        padding-bottom: 0;
+      }
 
-			nav > ul {
-				padding: 0;
-			}
+      nav > ul {
+        padding: 0;
+      }
 
-			nav > ul > li {
-				padding: 0 24px 8px 0;
-				list-style: none;
-			}
+      nav > ul > li {
+        padding: 0 24px 8px 0;
+        list-style: none;
+      }
 
-			nav a,
-			nav b {
-				@apply(--paper-font-button);
-			}
+      nav a,
+      nav b {
+        @apply (--paper-font-button);
+      }
 
-			nav a {
-				color: var(--primary-color);
-				text-decoration: none;
-			}
+      nav a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
 
-			nav b {
-				color: var(--secondary-text-color);
-			}
+      nav b {
+        color: var(--secondary-text-color);
+      }
 
-			.centered {
-				max-width: 800px;
-			}
-		</style>
+      .centered {
+        max-width: 800px;
+      }
+    </style>
 
-		<style>
-			:host {
-				display: block;
-			}
+    <style>
+      :host {
+        display: block;
+      }
 
-			:host span {
-				width : 500px;
-			};
-			things-upload{
-				margin-bottom:15px
-			}
-			:host::shadow .things-file-upload .title{display:none;}
-		</style>
+      :host span {
+        width: 500px;
+      }
+      things-upload {
+        margin-bottom: 15px;
+      }
+      :host::shadow .things-file-upload .title {
+        display: none;
+      }
+    </style>
 
-		<things-ajax
-			id="default-storage"
-			resource-url="storage_infos/show_by_name"
-			resource-action="get">
-		</things-ajax>
+    <things-ajax id="default-storage" resource-url="storage_infos/show_by_name" resource-action="get"> </things-ajax>
 
-		<div hidden="{{hidden}}">
-			<span class="title">[[title]]</span>
+    <div hidden="{{hidden}}">
+      <span class="title">[[title]]</span>
 
-			<things-upload
-				id="fileUpload"
-				accept="[[accept]]"
-				headers="[[headers]]"
-				i18n="[[i18n]]"
-				maxFiles=[[maxFiles]]
-				maxFileSize=[[maxFileSize]]
-				method=[[method]]
-				nodrop=[[nodrop]]
-				nomultiple=[[nomultiple]]
-				showCancelAll=[[showCancelAll]]
-				target=[[target]]
-				timeout=[[timeout]]>
-				<content></content>
-			</things-upload>
+      <things-upload
+        id="fileUpload"
+        accept="[[accept]]"
+        headers="[[headers]]"
+        i18n="[[i18n]]"
+        maxFiles="[[maxFiles]]"
+        maxFileSize="[[maxFileSize]]"
+        method="[[method]]"
+        nodrop="[[nodrop]]"
+        nomultiple="[[nomultiple]]"
+        showCancelAll="[[showCancelAll]]"
+        target="[[target]]"
+        timeout="[[timeout]]"
+      >
+        <content></content>
+      </things-upload>
 
-			<things-storage-combo 
-				id="storage" 
-				hidden="{{selectorHidden}}">
-			</things-storage-combo>
-			
-			<things-input-field 
-				id="tag" 
-				label="Tag" 
-				value="{{resourceTag}}" 
-				hidden="{{tagHidden}}">
-			</things-input-field>
-			
-			<things-tristate-radio 
-				id="keep-filename" 
-				label="Keep Filename" 
-				value="{{keepFilename}}" 
-				hidden="{{keepFilenameHidden}}">
-			</things-tristate-radio>
-		</div>
-	</template>
+      <things-storage-combo id="storage" hidden="{{selectorHidden}}"> </things-storage-combo>
 
-	<script>
-	Polymer({
-		is: 'things-file-upload',
+      <things-input-field id="tag" label="Tag" value="{{resourceTag}}" hidden="{{tagHidden}}"> </things-input-field>
 
-		properties: {
-			/**
-			 * 화면에 표시할 지 여부
-			 * *******
-			 * @type {Boolean}
-			 */
-			hidden: {
-				type: Boolean,
-				value: false
-			},
+      <things-tristate-radio
+        id="keep-filename"
+        label="Keep Filename"
+        value="{{keepFilename}}"
+        hidden="{{keepFilenameHidden}}"
+      >
+      </things-tristate-radio>
+    </div>
+  </template>
 
-			/**
-			 * selector 화면에 표시할지 여부
-			 * *******
-			 * @type {Boolean}
-			 */
-			selectorHidden: {
-				type: Boolean,
-				value: false
-			},
+  <script>
+    Polymer({
+      is: "things-file-upload",
 
-			/**
-			 * tag 화면에 표시할지 여부
-			 * *******
-			 * @type {Boolean}
-			 */
-			tagHidden: {
-				type: Boolean,
-				value: false
-			},
+      properties: {
+        /**
+         * 화면에 표시할 지 여부
+         * *******
+         * @type {Boolean}
+         */
+        hidden: {
+          type: Boolean,
+          value: false,
+        },
 
-			/**
-			 * 파일명을 업로드 후에 유지할 지 여부
-			 * *******
-			 * @type {Boolean}
-			 */
-			keepFilenameHidden: {
-				type: Boolean,
-				value: true
-			},
+        /**
+         * selector 화면에 표시할지 여부
+         * *******
+         * @type {Boolean}
+         */
+        selectorHidden: {
+          type: Boolean,
+          value: false,
+        },
 
-			/**
-			 * Toolbar에 표시될 컴포넌트 타이틀
-			 * *******
-			 * @type {String}
-			 */
-			title: {
-				type: String,
-				value: 'File Upload'
-			},
+        /**
+         * tag 화면에 표시할지 여부
+         * *******
+         * @type {Boolean}
+         */
+        tagHidden: {
+          type: Boolean,
+          value: false,
+        },
 
-			/**
-			 * 선택된 storage 정보
-			 * *******
-			 * @type {String}
-			 */
-			storage: {
-				type: String
-			},
+        /**
+         * 파일명을 업로드 후에 유지할 지 여부
+         * *******
+         * @type {Boolean}
+         */
+        keepFilenameHidden: {
+          type: Boolean,
+          value: true,
+        },
 
-			/**
-			 * 파일type 설정
-			 * 예: file_extension|audio/|video/|image/*|media_type
-			 * *******
-			 * @type {String}
-			 */
-			accept: {
-				type: String
-			},
+        /**
+         * Toolbar에 표시될 컴포넌트 타이틀
+         * *******
+         * @type {String}
+         */
+        title: {
+          type: String,
+          value: "File Upload",
+        },
 
-			/**
-			 * 서버로 보낼 Key-Value map 형식의 Object
-			 * *******
-			 * @type {Object}
-			 */
-			headers: {
-				type: Object
-			},
+        /**
+         * 선택된 storage 정보
+         * *******
+         * @type {String}
+         */
+        storage: {
+          type: String,
+        },
 
-			/**
-			 * localize로 사용될 Object.
-			 * <pre>
-			 * Default:
-			 *  {
-			 *  	dropFiles: {
-			 *  		one: Things.DataGlobal.t('text.drop_file_here'),
-			 *  		many: Things.DataGlobal.t('text.drop_files_here')
-			 *  	},
-			 *  	addFiles: {
-			 *  		one: Things.DataGlobal.t('text.select_file'),
-			 *  		many: Things.DataGlobal.t('text.add_files')
-			 *  	},
-			 *  	cancel: Things.DataGlobal.t('text.cancel'),
-			 *  	cancelAll: Things.DataGlobal.t('text.cancel_all'),
-			 *  	error: {
-			 *  		tooManyFiles: Things.DataGlobal.t('text.too_many_files'),
-			 *  		fileIsTooBig: Things.DataGlobal.t('text.file_is_too_big'),
-			 *  		incorrectFileType: Things.DataGlobal.t('text.incorrect_file_type')
-			 *  	},
-			 *  	uploading: {
-			 *  		status: {
-			 *  			connecting: Things.DataGlobal.t('text.connecting'),
-			 *  			stalled: Things.DataGlobal.t('text.stalled'),
-			 *  			processing: Things.DataGlobal.t('text.processing_file')
-			 *  		},
-			 *  		remainingTime: {
-			 *  			prefix: Things.DataGlobal.t('text.remaining_time'),
-			 *  			unknown: Things.DataGlobal.t('text.unknown_remaining_time')
-			 *  		},
-			 *  		error: {
-			 *  			serverUnavailable: Things.DataGlobal.t('text.server_unavailable'),
-			 *  			unexpectedServerError: Things.DataGlobal.t('text.unexpected_server_error'),
-			 *  			forbidden: Things.DataGlobal.t('text.forbidden')
-			 *  		}
-			 *  	},
-			 *  	units: {
-			 *  		size: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-			 *  	}
-			 *  }
-			 * </pre>
-			 ********
-			 *@type {Object}
-			 */
-			i18n: {
-				type: Object
-			},
+        /**
+         * 파일type 설정
+         * 예: file_extension|audio/|video/|image/*|media_type
+         * *******
+         * @type {String}
+         */
+        accept: {
+          type: String,
+        },
 
-			/**
-			 * 업로드 파일 최대개수 설정,default값은 제한없음.
-			 * *******
-			 * @type {Number}
-			 */
-			maxFiles: {
-				type: Number,
-				value:Infinity
-			},
+        /**
+         * 서버로 보낼 Key-Value map 형식의 Object
+         * *******
+         * @type {Object}
+         */
+        headers: {
+          type: Object,
+        },
 
-			/**
-			 * 업로드 파일 최대사이즈,default값은 제한없음.
-			 * *******
-			 * @type {Number}
-			 */
-			maxFileSize: {
-				type: Number,
-				value:Infinity
-			},
+        /**
+         * localize로 사용될 Object.
+         * <pre>
+         * Default:
+         *  {
+         *  	dropFiles: {
+         *  		one: Things.DataGlobal.t('text.drop_file_here'),
+         *  		many: Things.DataGlobal.t('text.drop_files_here')
+         *  	},
+         *  	addFiles: {
+         *  		one: Things.DataGlobal.t('text.select_file'),
+         *  		many: Things.DataGlobal.t('text.add_files')
+         *  	},
+         *  	cancel: Things.DataGlobal.t('text.cancel'),
+         *  	cancelAll: Things.DataGlobal.t('text.cancel_all'),
+         *  	error: {
+         *  		tooManyFiles: Things.DataGlobal.t('text.too_many_files'),
+         *  		fileIsTooBig: Things.DataGlobal.t('text.file_is_too_big'),
+         *  		incorrectFileType: Things.DataGlobal.t('text.incorrect_file_type')
+         *  	},
+         *  	uploading: {
+         *  		status: {
+         *  			connecting: Things.DataGlobal.t('text.connecting'),
+         *  			stalled: Things.DataGlobal.t('text.stalled'),
+         *  			processing: Things.DataGlobal.t('text.processing_file')
+         *  		},
+         *  		remainingTime: {
+         *  			prefix: Things.DataGlobal.t('text.remaining_time'),
+         *  			unknown: Things.DataGlobal.t('text.unknown_remaining_time')
+         *  		},
+         *  		error: {
+         *  			serverUnavailable: Things.DataGlobal.t('text.server_unavailable'),
+         *  			unexpectedServerError: Things.DataGlobal.t('text.unexpected_server_error'),
+         *  			forbidden: Things.DataGlobal.t('text.forbidden')
+         *  		}
+         *  	},
+         *  	units: {
+         *  		size: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+         *  	}
+         *  }
+         * </pre>
+         ********
+         *@type {Object}
+         */
+        i18n: {
+          type: Object,
+        },
 
-			/**
-			 * HTTP 매소드
-			 * *******
-			 * @type {String}
-			 */
-			method: {
-				type: String,
-				value:'POST'
-			},
+        /**
+         * 업로드 파일 최대개수 설정,default값은 제한없음.
+         * *******
+         * @type {Number}
+         */
+        maxFiles: {
+          type: Number,
+          value: Infinity,
+        },
 
-			/**
-			 * 드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
-			 * *******
-			 * @type {Boolean}
-			 */
-			nodrop: {
-				type: Boolean,
-				value:false
-			},
+        /**
+         * 업로드 파일 최대사이즈,default값은 제한없음.
+         * *******
+         * @type {Number}
+         */
+        maxFileSize: {
+          type: Number,
+          value: Infinity,
+        },
 
-			/**
-			 * 여러 파일을 동시에 업로드여부
-			 * *******
-			 * @type {Boolean}
-			 */
-			nomultiple: {
-				type: Boolean,
-				value:false
-			},
+        /**
+         * HTTP 매소드
+         * *******
+         * @type {String}
+         */
+        method: {
+          type: String,
+          value: "POST",
+        },
 
-			/**
-			 * cancelall 기능
-			 * *******
-			 * @type {Boolean}
-			 */
-			showCancelAll: {
-				type: Boolean,
-				value:false
-			},
+        /**
+         * 드랙해서 파일 업로드하는 기능,default 값은 지원되지 않음.
+         * *******
+         * @type {Boolean}
+         */
+        nodrop: {
+          type: Boolean,
+          value: false,
+        },
 
-			/**
-			 * Server URL.
-			 * *******
-			 * @type {String}
-			 */
-			target: {
-				type: String
-			},
+        /**
+         * 여러 파일을 동시에 업로드여부
+         * *******
+         * @type {Boolean}
+         */
+        nomultiple: {
+          type: Boolean,
+          value: false,
+        },
 
-			/**
-			 * 오랜 시간동안 업로드 하지 않으면 timeout 발생
-			 * *******
-			 * @type {Number}
-			 */
-			timeout: {
-				type: Number,
-				value: 0
-			},
+        /**
+         * cancelall 기능
+         * *******
+         * @type {Boolean}
+         */
+        showCancelAll: {
+          type: Boolean,
+          value: false,
+        },
 
-			/**
-			 * 파일 리소스 엔티티 타입
-			 * *******
-			 * @type {String}
-			 */
-			resourceType: {
-				type: String
-			},
+        /**
+         * Server URL.
+         * *******
+         * @type {String}
+         */
+        target: {
+          type: String,
+        },
 
-			/**
-			 * resource Id
-			 * *******
-			 * @type {String}
-			 */
-			resourceId: {
-				type: String
-			},
+        /**
+         * 오랜 시간동안 업로드 하지 않으면 timeout 발생
+         * *******
+         * @type {Number}
+         */
+        timeout: {
+          type: Number,
+          value: 0,
+        },
 
-			/**
-			 * resouce Tag
-			 * *******
-			 * @type {String}
-			 */
-			resourceTag: {
-				type: String
-			},
+        /**
+         * 파일 리소스 엔티티 타입
+         * *******
+         * @type {String}
+         */
+        resourceType: {
+          type: String,
+        },
 
-			/**
-			 * 파일명을 업로드 후에도 유지할 지 여부 
-			 * *******
-			 * @type {Boolean}
-			 */
-			keepFilename: {
-				type: Boolean,
-				value: false
-			},
+        /**
+         * resource Id
+         * *******
+         * @type {String}
+         */
+        resourceId: {
+          type: String,
+        },
 
-			/**
-			 * compute basic url for reuqest generation
-			 * *******
-			 */
-			_baseUrl: {
-				computed: '_getbaseUrl(globals.baseUrl)'
-			},
+        /**
+         * resouce Tag
+         * *******
+         * @type {String}
+         */
+        resourceTag: {
+          type: String,
+        },
 
-			/**
-			 * 기본 storage를 전달 받아 맵핑 합니다.
-			 * *******
-			 * @type {String}
-			 */
-			defaultStorage: {
-				type: String,
-				observer: '_defaultStorageChanged'
-			}
-		},
+        /**
+         * 파일명을 업로드 후에도 유지할 지 여부
+         * *******
+         * @type {Boolean}
+         */
+        keepFilename: {
+          type: Boolean,
+          value: false,
+        },
 
-		listeners: {
-			'fileUpload.file-add': '_fileAdd',
-			'fileUpload.file-remove': '_fileRemove',
-			'fileUpload.upload-before': '_uploadBefore',
-			'fileUpload.upload-start': '_updateListItem',
-			'fileUpload.upload-request': '_uploadRequest',
-			'fileUpload.upload-progress': '_updateListItem',
-			'fileUpload.upload-response': '_uploadResponse',
-			'fileUpload.upload-success': '_updateListItem',
-			'fileUpload.upload-error': '_updateListItem',
-			'fileUpload.upload-abort':'_uploadAbort',
-			'storage.things-combo-value-changed' : '_storageValueChangeHandler',
-			'default-storage.things-ajax-response': '_defaultStorageValueChanged'
-		},
+        /**
+         * compute basic url for reuqest generation
+         * *******
+         */
+        _baseUrl: {
+          computed: "_getbaseUrl(globals.baseUrl)",
+        },
 
-		behaviors: [
-			Things.GlobalBehavior,
-			Things.SpinnerBehavior,
-			Things.MsgBoxBehavior
-		],
+        /**
+         * 기본 storage를 전달 받아 맵핑 합니다.
+         * *******
+         * @type {String}
+         */
+        defaultStorage: {
+          type: String,
+          observer: "_defaultStorageChanged",
+        },
+      },
 
-		/**
-		 * 전달받은 defaultStorage를 이용하여 ajax 호출 합니다.
-		 ***********
-		 * @param {defaultStorage} defaultStorage
-		 */
-		_defaultStorageChanged: function(defaultStorage) {
-			if(defaultStorage) {
-				var storageAjax = this.$['default-storage'];
-				storageAjax.resourceUrl = storageAjax.resourceUrl + '?name=' + defaultStorage;
-				storageAjax.generateRequest();
-			}
-		},
+      listeners: {
+        "fileUpload.file-add": "_fileAdd",
+        "fileUpload.file-remove": "_fileRemove",
+        "fileUpload.upload-before": "_uploadBefore",
+        "fileUpload.upload-start": "_updateListItem",
+        "fileUpload.upload-request": "_uploadRequest",
+        "fileUpload.upload-progress": "_updateListItem",
+        "fileUpload.upload-response": "_uploadResponse",
+        "fileUpload.upload-success": "_updateListItem",
+        "fileUpload.upload-error": "_updateListItem",
+        "fileUpload.upload-abort": "_uploadAbort",
+        "storage.things-combo-value-changed": "_storageValueChangeHandler",
+        "default-storage.things-ajax-response": "_defaultStorageValueChanged",
+      },
 
-		/**
-		 * ajax 호출 listner로 response를 통해 storage의 값들을 초기화 합니다.
-		 **********
-		 * @param {e} e #### :storage값
-		 */
-		_defaultStorageValueChanged: function(e) {
-			this.$.storage.name = e.detail.description;
-			this.$.storage.value = e.detail.name;
-			this.storage = e.detail.name;
-		},
+      behaviors: [Things.GlobalBehavior, Things.SpinnerBehavior, Things.MsgBoxBehavior],
 
-		/**
-		 * Storage 선택시
-		 ************
-		 * @param {e} e #### :storage 값
-		 */
-		_storageValueChangeHandler: function(e) {
-			this.storage = e.detail.value;
-		},
+      /**
+       * 전달받은 defaultStorage를 이용하여 ajax 호출 합니다.
+       ***********
+       * @param {defaultStorage} defaultStorage
+       */
+      _defaultStorageChanged: function (defaultStorage) {
+        if (defaultStorage) {
+          var storageAjax = this.$["default-storage"];
+          storageAjax.resourceUrl = storageAjax.resourceUrl + "?name=" + defaultStorage;
+          storageAjax.generateRequest();
+        }
+      },
 
-		/**
-		 * compute basic url
-		 ********
-		 * @param {baseUrl} baseUrl
-		 */
-		_getbaseUrl: function(baseUrl) {
-			return baseUrl;
-		},
+      /**
+       * ajax 호출 listner로 response를 통해 storage의 값들을 초기화 합니다.
+       **********
+       * @param {e} e #### :storage값
+       */
+      _defaultStorageValueChanged: function (e) {
+        this.$.storage.name = e.detail.description;
+        this.$.storage.value = e.detail.name;
+        this.storage = e.detail.name;
+      },
 
-		/**
-		 * 업로드 상태, 업로드 중 진척 현황
-		 *********
-		 * @param {Object} event
-		 */
-		_updateListItem: function(event) {
-			var file = event.detail.file;
+      /**
+       * Storage 선택시
+       ************
+       * @param {e} e #### :storage 값
+       */
+      _storageValueChangeHandler: function (e) {
+        this.storage = e.detail.value;
+      },
 
-			if (file.listItem) {
-				file.listItem.querySelector('strong').textContent = file.name;
-				var status = file.listItem.querySelector('span');
+      /**
+       * compute basic url
+       ********
+       * @param {baseUrl} baseUrl
+       */
+      _getbaseUrl: function (baseUrl) {
+        return baseUrl;
+      },
 
-				switch (event.type) {
-					case 'upload-success':
-						status.textContent = 'Uploaded.';
-						break;
+      /**
+       * 업로드 상태, 업로드 중 진척 현황
+       *********
+       * @param {Object} event
+       */
+      _updateListItem: function (event) {
+        var file = event.detail.file;
 
-					case 'upload-error':
-						if(file.xhr && file.xhr.responseText) {
-							this.openResponseError(JSON.parse(file.xhr.responseText));	
-						}
-						
-						status.textContent = file.xhr.responseText;
-						break;
+        if (file.listItem) {
+          file.listItem.querySelector("strong").textContent = file.name;
+          var status = file.listItem.querySelector("span");
 
-					default:
-						status.textContent = file.status;
-				}
-			}
-		},
+          switch (event.type) {
+            case "upload-success":
+              status.textContent = "Uploaded.";
+              break;
 
-		/**
-		 * 파일 추가
-		 ********
-		 * @param {Object} event
-		 */
-		_fileAdd: function(event) {
-			var file = event.detail.file;
-			var li = document.createElement('li');
-			li.innerHTML = '<strong></strong><br/> <span></span>';
-			file.listItem = li;
-			// this.$.customFilesList.appendChild(li);
-			this._updateListItem(event);
-		},
+            case "upload-error":
+              if (file.xhr && file.xhr.responseText) {
+                this.openResponseError(JSON.parse(file.xhr.responseText));
+              }
 
-		/**
-		 * 파일 삭제
-		 ********
-		 * @param {Object} event
-		 */
-		_fileRemove: function(event) {
-			var file = event.detail.file;
-			if (file.listItem) {
-				this.$.customFilesList.removeChild(file.listItem);
-			}
-		},
+              status.textContent = file.xhr.responseText;
+              break;
 
-		/**
-		 * 업로드 전
-		 ********
-		 * @param {Object} event
-		 */
-		_uploadBefore: function(event) {
-			// event.preventDefault();
+            default:
+              status.textContent = file.status;
+          }
+        }
+      },
 
-			var file = event.detail.file;
-			var target = this.$.fileUpload.target
-			var formData = event.detail.formData;
+      /**
+       * 파일 추가
+       ********
+       * @param {Object} event
+       */
+      _fileAdd: function (event) {
+        var file = event.detail.file;
+        var li = document.createElement("li");
+        li.innerHTML = "<strong></strong><br/> <span></span>";
+        file.listItem = li;
+        // this.$.customFilesList.appendChild(li);
+        this._updateListItem(event);
+      },
 
-			if(this.resourceId) {
-				formData.append('onId', this.resourceId);
-				formData.append('onType', this.resourceType);
-			}
+      /**
+       * 파일 삭제
+       ********
+       * @param {Object} event
+       */
+      _fileRemove: function (event) {
+        var file = event.detail.file;
+        if (file.listItem) {
+          this.$.customFilesList.removeChild(file.listItem);
+        }
+      },
 
-			file.xhr.withCredentials = true;
-			file.uploadTarget = [this._baseUrl, target, this.storage].join('/');
-			
-			if(this.keepFilename) {
-				file.uploadTarget = file.uploadTarget + '?keep_filename=true';
-			}
-		},
+      /**
+       * 업로드 전
+       ********
+       * @param {Object} event
+       */
+      _uploadBefore: function (event) {
+        // event.preventDefault();
 
-		/**
-		 * 업로드 request
-		 ********
-		 * @param {Object} event
-		 */
-		_uploadRequest: function(event) {
-		},
+        var file = event.detail.file;
+        var target = this.$.fileUpload.target;
+        var formData = event.detail.formData;
 
-		/**
-		 * 업로드 responese
-		 ********
-		 * @param {Object} event
-		 */
-		_uploadResponse: function(event) {
-			this.fire('things-upload-response', event.detail);
-		},
+        if (this.resourceId) {
+          formData.append("onId", this.resourceId);
+          formData.append("onType", this.resourceType);
+        }
 
-		/**
-		 * 업로드 중지 
-		 ********
-		 * @param {Object} event
-		 */
-		_uploadAbort: function(event) {
-		}
-	});
-	</script>
+        file.xhr.withCredentials = true;
+        file.uploadTarget = [this._baseUrl, target, this.storage].join("/");
+
+        if (this.keepFilename) {
+          file.uploadTarget = file.uploadTarget + "?keep_filename=true";
+        }
+      },
+
+      /**
+       * 업로드 request
+       ********
+       * @param {Object} event
+       */
+      _uploadRequest: function (event) {},
+
+      /**
+       * 업로드 responese
+       ********
+       * @param {Object} event
+       */
+      _uploadResponse: function (event) {
+        this.fire("things-upload-response", event.detail);
+      },
+
+      /**
+       * 업로드 중지
+       ********
+       * @param {Object} event
+       */
+      _uploadAbort: function (event) {},
+    });
+  </script>
 </dom-module>

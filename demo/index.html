@@ -1,66 +1,64 @@
 <!--
 @license
-Copyright © HatioLab Inc. All rights reserved.
+Copyright © 2015-2021 Shenzhen Weixun All rights reserved.
 -->
-<!doctype html>
-
+<!DOCTYPE html>
 
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-  <title>vaadin-upload Basic Examples</title>
+    <title>vaadin-upload Basic Examples</title>
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="common.html">
-  <link rel="import" href="../../iron-icon/iron-icon.html">
-  <link rel="import" href="../../iron-icons/iron-icons.html">
-  <link rel="import" href="../../paper-toast/paper-toast.html">
-  <link rel="import" href="../../things-button/things-button.html">
-  <link rel="import" href="../../things-spinner/things-spinner.html">
-  <link rel="import" href="../../things-setting/things-setting.html">
-</head>
-<body unresolved>
-  <div class="vertical-section-container centered">
-    <nav class="vertical-section">
-      <ul class="layout horizontal wrap">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="common.html" />
+    <link rel="import" href="../../iron-icon/iron-icon.html" />
+    <link rel="import" href="../../iron-icons/iron-icons.html" />
+    <link rel="import" href="../../paper-toast/paper-toast.html" />
+    <link rel="import" href="../../things-button/things-button.html" />
+    <link rel="import" href="../../things-spinner/things-spinner.html" />
+    <link rel="import" href="../../things-setting/things-setting.html" />
+  </head>
+  <body unresolved>
+    <div class="vertical-section-container centered">
+      <nav class="vertical-section">
+        <ul class="layout horizontal wrap">
+          <li><b>Things File Upload Examples</b></li>
+        </ul>
+      </nav>
+      <things-setting id="setting"></things-setting>
 
-        <li><b>Things File Upload Examples</b></li>
-      </ul>
-    </nav>
-    <things-setting id="setting"></things-setting>
+      <things-spinner id="spinner"></things-spinner>
 
-    <things-spinner id="spinner"></things-spinner>
+      <paper-toast id="toast" class="Toast" duration="8000"></paper-toast>
 
-    <paper-toast id="toast" class="Toast" duration="8000"></paper-toast>
+      <h3>Basic Usage With Upload Request Properties</h3>
+      <demo-snippet>
+        <template>
+          <things-file-upload target="upload" method="POST" timeout="300000"></things-file-upload>
+        </template>
+      </demo-snippet>
 
-    <h3>Basic Usage With Upload Request Properties</h3>
-    <demo-snippet>
-      <template>
-        <things-file-upload target="upload" method="POST" timeout="300000" ></things-file-upload>
-      </template>
-    </demo-snippet>
+      <h3>Disabling Drag & Drop and Picking Multiple Files in the File Dialog</h3>
+      <demo-snippet>
+        <template>
+          <things-file-upload nodrop nomultiple target="upload" method="POST" timeout="300000"></things-file-upload>
+        </template>
+      </demo-snippet>
 
-    <h3>Disabling Drag & Drop and Picking Multiple Files in the File Dialog</h3>
-    <demo-snippet>
-      <template>
-        <things-file-upload nodrop nomultiple target="upload" method="POST" timeout="300000" ></things-file-upload>
-      </template>
-    </demo-snippet>
-
-    <h3>Custom Drop Label</h3>
-    <demo-snippet>
-      <template>
-        <things-file-upload nodrop nomultiple target="upload" method="POST" timeout="300000" >
-          <h2 class="drop-label">
-            <iron-icon icon="cloud-upload"></iron-icon>
-            Drop files here...
-          </h2>
-        </things-file-upload>
-      </template>
-    </demo-snippet>
-  </div>
-</body>
+      <h3>Custom Drop Label</h3>
+      <demo-snippet>
+        <template>
+          <things-file-upload nodrop nomultiple target="upload" method="POST" timeout="300000">
+            <h2 class="drop-label">
+              <iron-icon icon="cloud-upload"></iron-icon>
+              Drop files here...
+            </h2>
+          </things-file-upload>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
 </html>

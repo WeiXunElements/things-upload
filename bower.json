@@ -1,8 +1,8 @@
 {
   "name": "things-upload",
-  "version": "v2.2.1",
+  "version": "v2.2.2",
   "authors": [
-    "Hatio Lab. <heartyoh@hatiolab.com>"
+    "Shenzhen Weixun"
   ],
   "description": "Polymer element for uploading multiple files with drag and drop support",
   "keywords": [
@@ -11,8 +11,6 @@
     "seed"
   ],
   "main": "things-upload.html",
-  "license": "http://license.hatiolab.com/EULA",
-  "homepage": "http://elements.hatiolab.com/",
   "ignore": [
     "/.*",
     "/test/"
